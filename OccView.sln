@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OccView", "OccView.csproj", "{7436E8EB-18B8-451E-BC08-7776C3138FCB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OCCProxy", "OCCProxy\OCCProxy.vcxproj", "{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Debug|x64.Build.0 = Debug|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Debug|x86.Build.0 = Debug|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Release|x64.ActiveCfg = Release|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Release|x64.Build.0 = Release|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Release|x86.ActiveCfg = Release|Any CPU
+		{7436E8EB-18B8-451E-BC08-7776C3138FCB}.Release|x86.Build.0 = Release|Any CPU
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Debug|x64.ActiveCfg = Debug|x64
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Debug|x64.Build.0 = Debug|x64
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Debug|x86.ActiveCfg = Debug|Win32
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Debug|x86.Build.0 = Debug|Win32
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Release|Any CPU.ActiveCfg = Release|Win32
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Release|x64.ActiveCfg = Release|x64
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Release|x64.Build.0 = Release|x64
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Release|x86.ActiveCfg = Release|Win32
+		{F8F9B20B-4B45-49D0-B08D-2A37DC42341A}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {986C4CA1-0B83-45D5-84BB-12FED997DE69}
+	EndGlobalSection
+EndGlobal
