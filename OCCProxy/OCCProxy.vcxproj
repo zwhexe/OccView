@@ -146,7 +146,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="OCCJson.cpp" />
     <ClCompile Include="OCCProxy.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OCCJson.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
