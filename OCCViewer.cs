@@ -55,7 +55,6 @@ namespace OccView
             return View.InitViewer();
         }
 
-
         public void ImportModel(ModelFormat theFormat)
         {
             int aFormat = 10;
@@ -127,5 +126,19 @@ namespace OccView
             currentMode = CurrentAction3d.CurAction3d_GlobalPanning;
         }
 
+        public void OnMouseMove(System.Windows.IInputElement sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        public void OnMouseDown(System.Windows.IInputElement sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        public void OnMouseUp(System.Windows.IInputElement sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

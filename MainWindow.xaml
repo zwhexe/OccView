@@ -13,7 +13,8 @@
         </Grid.ColumnDefinitions>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="554" Grid.ColumnSpan="2">
             <MenuItem Header="File" Height="21">
-                <MenuItem Header="Import" HorizontalAlignment="Left" Height="21" Width="145" Margin="0,0,-1,0" Click="Import_Click"/>
+                <MenuItem Header="Import" HorizontalAlignment="Left" Height="21" Width="144" Click="Import_Click"/>
+                <MenuItem Header="Load" HorizontalAlignment="Left" Height="21" Width="144" Click="Load_Click"/>
                 <MenuItem Header="Exit" HorizontalAlignment="Left" Height="21" Width="144"/>
             </MenuItem>
             <MenuItem Header="Tool" Height="21" Width="40" Click="Tool_Click"/>

@@ -45,15 +45,15 @@ namespace OccView
             mViewer = new D3dViewer();
             Grid g = new Grid();
             Map.Add(g, mViewer);
+            //use D3DImage to initial imgBrush
             ImageBrush imgBrush = new ImageBrush(mViewer.Image);
 
             g.Background = imgBrush;
-            //g.MouseMove += new MouseEventHandler(g_MouseMove);
-            //g.MouseDown += new MouseButtonEventHandler(g_MouseDown);
-            //g.MouseUp += new MouseButtonEventHandler(g_MouseUp);
+            g.MouseMove += new MouseEventHandler(g_MouseMove);
+            g.MouseDown += new MouseButtonEventHandler(g_MouseDown);
+            g.MouseUp += new MouseButtonEventHandler(g_MouseUp);
 
             g.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-
 
             TabItem aNewTab = new TabItem();
             aNewTab.Content = g;
@@ -81,6 +81,14 @@ namespace OccView
             if (ActViewer != null)
             {
                 ActViewer.ImportModel(ModelFormat.STEP);
+            }
+        }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActViewer != null)
+            {
+                
             }
         }
 
@@ -127,7 +135,40 @@ namespace OccView
                                Convert.ToInt32(e.NewSize.Height));
         }
 
+        void g_MouseMove(object sender, MouseEventArgs e)
+        {
+            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            if (aGrid != null)
+            {
+                ActViewer.OnMouseMove(aGrid, e);
+            }
+        }
+
+        void g_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            if (aGrid != null)
+            {
+                ActViewer.OnMouseDown(ViewPanel, e);
+            }
+        }
+
+        void g_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+
+            if (aGrid != null)
+            {
+                ActViewer.OnMouseUp(aGrid, e);
+            }
+        }
+
         private int mViewCounter = 1;
         Dictionary<Grid, D3dViewer> Map = new Dictionary<Grid, D3dViewer>();
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
