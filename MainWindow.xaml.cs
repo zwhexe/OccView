@@ -23,10 +23,13 @@ namespace OccView
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        //declare an event/instaniate a delegate which type is PropertyChangedEventHandler
+        /*PropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)*/
+        //PropertyChanged takes 2 param: object sender, PropertyChangedEventArgs e
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChanged(string thePropertyName)
-        {
+        {//call observers registered method when property changed
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(thePropertyName));
@@ -45,34 +48,34 @@ namespace OccView
             mViewer = new D3dViewer();
             Grid g = new Grid();
             Map.Add(g, mViewer);
-            //use D3DImage to initial imgBrush
+            
+            //1.use D3DImage to initialize imgBrush
             ImageBrush imgBrush = new ImageBrush(mViewer.Image);
 
+            //2.use ImageBrush to fill grid background
             g.Background = imgBrush;
             g.MouseMove += new MouseEventHandler(g_MouseMove);
             g.MouseDown += new MouseButtonEventHandler(g_MouseDown);
             g.MouseUp += new MouseButtonEventHandler(g_MouseUp);
-
             g.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
 
+            //3.assign grid to TabItem content
             TabItem aNewTab = new TabItem();
-            aNewTab.Content = g;
-
+            aNewTab.Content = g;  //assign grid to TabItem
             aNewTab.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
             aNewTab.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch;
             aNewTab.VerticalContentAlignment = System.Windows.VerticalAlignment.Stretch;
 
             g.SizeChanged += new SizeChangedEventHandler(g_SizeChanged);
-
             aNewTab.IsSelected = true;
             aNewTab.Header = "View " + mViewCounter.ToString();
             mViewCounter++;
 
+            //4.add TabItem to xaml TabControl
             ViewPanel.Items.Add(aNewTab);
-
             ViewPanel.Focus();
 
-            // update XAML property
+            //5.update XAML property
             RaisePropertyChanged("IsDocumentOpen");
         }
 
@@ -94,7 +97,10 @@ namespace OccView
 
         private void Tool_Click(object sender, RoutedEventArgs e)
         {
+            if (ActViewer != null)
+            {
 
+            }
         }
 
         private OCCViewer ActViewer
@@ -105,6 +111,7 @@ namespace OccView
                 {
                     return null;
                 }
+
                 Grid grid = (ViewPanel.SelectedContent) as Grid;
                 if (grid == null)
                 {
@@ -163,12 +170,12 @@ namespace OccView
             }
         }
 
-        private int mViewCounter = 1;
-        Dictionary<Grid, D3dViewer> Map = new Dictionary<Grid, D3dViewer>();
-
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        private int mViewCounter = 1;
+        Dictionary<Grid, D3dViewer> Map = new Dictionary<Grid, D3dViewer>();
     }
 }

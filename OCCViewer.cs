@@ -97,6 +97,8 @@ namespace OccView
                     MessageBox.Show("Cann't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+
+            View.SetDisplayMode(1);
             View.ZoomAllView();
         }
     

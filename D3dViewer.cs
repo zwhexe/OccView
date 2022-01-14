@@ -15,8 +15,12 @@ namespace OccView
 
         public D3dViewer()
         {
+            //register OnIsFrontBufferAvailabelChanged as DependencyPropertyChangedEventHandler to 
+            //D3DImage.IsFrontBufferAvailableChanged which is an event(an instaniate delegate)
             mD3dImg.IsFrontBufferAvailableChanged
               += new DependencyPropertyChangedEventHandler(OnIsFrontBufferAvailableChanged);
+            //once D3DViewer be initialized, attach FrontBuffer method to D3DImage
+            //thus D3DImage Front Buffer changed it will notice OnIsFrontBufferAvailableChanged
             BeginRenderingScene();
         }
 
@@ -111,10 +115,7 @@ namespace OccView
 
         public D3DImage Image
         {
-            get
-            {
-                return mD3dImg;
-            }
+            get => mD3dImg;
         }
     }
 }

@@ -308,9 +308,7 @@ public:
             return;
         }
 
-        AIS_DisplayMode aCurrentMode = theMode == 0
-            ? AIS_WireFrame
-            : AIS_Shaded;
+        AIS_DisplayMode aCurrentMode = theMode == 0 ? AIS_WireFrame : AIS_Shaded;
         if (mAisContext()->NbSelected() == 0)
         {
             mAisContext()->SetDisplayMode(aCurrentMode, Standard_False);
