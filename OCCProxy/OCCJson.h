@@ -3,7 +3,7 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
-ref class OCCJson
+public ref class OCCJson
 {
 public:
 	OCCJson();

@@ -42,6 +42,7 @@ namespace OccView
     public class OCCViewer
     {
         public OCCProxy View { get; private set; }
+        public OCCJson Json { get; set; }
         public CurrentAction3d currentMode { get; private set; }
         public float mCurZoom;
         public OCCViewer()
@@ -100,6 +101,27 @@ namespace OccView
 
             View.SetDisplayMode(1);
             View.ZoomAllView();
+        }
+
+        public void LoadJson()
+        {
+            int aFormat = 10;
+            OpenFileDialog anOpenFileDialog = new OpenFileDialog();
+            string aDataDir = Environment.GetEnvironmentVariable("JsonDataPath");
+            string aFilter = "";
+
+            anOpenFileDialog.InitialDirectory = (aDataDir + "\\json");
+            aFilter = "JSON Files (*.json)|*.json";
+
+            anOpenFileDialog.Filter = aFilter + "|All files(*.*)|*.*";
+            if (anOpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string fileName = anOpenFileDialog.FileName;
+                if (fileName == "")
+                {
+                    return;
+                }
+            }
         }
     
         public void FitAll()

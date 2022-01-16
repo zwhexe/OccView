@@ -91,7 +91,7 @@ namespace OccView
         {
             if (ActViewer != null)
             {
-                
+                ActViewer.LoadJson();
             }
         }
 
