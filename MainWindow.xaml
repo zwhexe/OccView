@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OccView"
         mc:Ignorable="d"
-        Title="OccWindow" Height="428.166" Width="561.984">
+        Title="OccWindow" Height="450" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="31*"/>
@@ -19,6 +19,6 @@
             </MenuItem>
             <MenuItem Header="Tool" Height="21" Width="40" Click="Tool_Click"/>
         </Menu>
-        <TabControl x:Name="ViewPanel" Height="344" Margin="0,21,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="554"/>
+        <TabControl x:Name="ViewPanel" Margin="0,21,0,0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="592" Height="373" VerticalAlignment="Top" SelectionChanged="ViewPanel_SelectionChanged"/>
     </Grid>
 </Window>

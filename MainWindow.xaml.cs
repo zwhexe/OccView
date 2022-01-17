@@ -41,6 +41,7 @@ namespace OccView
         {
             InitializeComponent();
             InitViewer();
+            ActData = new CSData(); 
         }
 
         public void InitViewer()
@@ -89,9 +90,11 @@ namespace OccView
 
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-            if (ActViewer != null)
+            if (ActData != null)
             {
-                ActViewer.LoadJson();
+                //ActData.InitWeather();
+                ActData.ToOccJson();
+                //ActData.LoadJson();
             }
         }
 
@@ -120,6 +123,8 @@ namespace OccView
                 return Map[grid].Viewer;
             }
         }
+
+        private CSData ActData;
 
         public Boolean IsDocumentOpen
         {
@@ -177,5 +182,10 @@ namespace OccView
 
         private int mViewCounter = 1;
         Dictionary<Grid, D3dViewer> Map = new Dictionary<Grid, D3dViewer>();
+
+        private void ViewPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

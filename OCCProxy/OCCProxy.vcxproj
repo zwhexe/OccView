@@ -123,12 +123,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\OpenCASCADE-7.5.0-vc14-64\opencascade-7.5.0\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\OpenCASCADE-7.5.0-vc14-64\opencascade-7.5.0\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\OpenCASCADE-7.5.0-vc14-64\opencascade-7.5.0\win64\vc14\libd;C:\OpenCASCADE-7.5.0-vc14-64\opencascade-7.5.0\win64\vc14\lib;$(CSF_OCCTLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\OpenCASCADE-7.5.0-vc14-64\opencascade-7.5.0\win64\vc14\lib;$(CSF_OCCTLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)OCCProxy.dll</OutputFile>
       <ImportLibrary>$(OutDir)OCCProxy.lib</ImportLibrary>
     </Link>
