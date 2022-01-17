@@ -67,7 +67,8 @@ namespace OccView
             string jsonString = JsonConvert.SerializeObject(weather, Formatting.Indented);
             File.WriteAllText(filepath + "CSJson.json", jsonString);
         }
-        public void ToOccJson()
+
+        public string JsonPath()
         {
             OpenFileDialog anOpenFileDialog = new OpenFileDialog();
             string aDataDir = Environment.GetEnvironmentVariable("JsonDataPath");
@@ -77,66 +78,60 @@ namespace OccView
             aFilter = "JSON Files (*.json)|*.json";
 
             anOpenFileDialog.Filter = aFilter + "|All files(*.*)|*.*";
+
             if (anOpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string fileName = anOpenFileDialog.FileName;
-                if (fileName == "")
-                {
-                    return;
-                }
-                //analyze json file in OCCProxy
-                unsafe
-                {
-                    sbyte* cptr = stackalloc sbyte[26];
-                    
-                    if (!occJson.LoadJson(fileName))
-                    {
-                        MessageBox.Show("Cann't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
+                return anOpenFileDialog.FileName;
+            }
+            return null;
+        }
 
+        public void ToOccJson()
+        {
+            string filename = JsonPath();
+            if (filename == "" || filename == null)
+                return;
+
+            unsafe
+            {
+                sbyte* cptr = stackalloc sbyte[26];
+
+                if (!occJson.LoadJson(filename))
+                {
+                    MessageBox.Show("Can't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
 
         public void LoadJson()
         {
-            OpenFileDialog anOpenFileDialog = new OpenFileDialog();
-            string aDataDir = Environment.GetEnvironmentVariable("JsonDataPath");
-            string aFilter = "";
-
-            anOpenFileDialog.InitialDirectory = (aDataDir + "\\json");
-            aFilter = "JSON Files (*.json)|*.json";
-
-            anOpenFileDialog.Filter = aFilter + "|All files(*.*)|*.*";
-            if (anOpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            string filename = JsonPath();
+            if (filename == "" || filename == null)
             {
-                string fileName = anOpenFileDialog.FileName;
-                if (fileName == "")
-                {
-                    return;
-                }
-                //analyze json file in C#
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-
-                string jsonString = File.ReadAllText(fileName);
-                StreamReader fileReader = File.OpenText(fileName);
-                JsonTextReader reader = new JsonTextReader(fileReader);
-                JObject job = (JObject)JToken.ReadFrom(reader);
-
-                stopwatch.Stop();
-                string dur = stopwatch.ElapsedMilliseconds.ToString();
-                Console.WriteLine("CSData::LoadJson() cost " + dur + " ms");
-                stopwatch.Reset();
-                //foreach(var x in job as JObject)
-                //{
-                //    Console.WriteLine("{0} : {1}", x.Key, x.Value);
-                //}
+                return;
             }
+            //analyze json file in C#
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            //read json object from json file
+            string jsonString = File.ReadAllText(filename);
+            StreamReader fileReader = File.OpenText(filename);
+            JsonTextReader reader = new JsonTextReader(fileReader);
+            JObject job = (JObject)JToken.ReadFrom(reader);
+
+            stopwatch.Stop();
+            string dur = stopwatch.ElapsedMilliseconds.ToString();
+            Console.WriteLine("CSData::LoadJson() cost " + dur + " ms");
+            stopwatch.Reset();
+            //foreach(var x in job as JObject)
+            //{
+            //    Console.WriteLine("{0} : {1}", x.Key, x.Value);
+            //}
         }
 
         //This is OCC defined json which use nlohmann 
         private OCCJson occJson;
-        private string filepath = "D:\\Test\\";
+        private string filepath = "D:\\";
     }
 }

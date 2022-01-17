@@ -41,4 +41,12 @@ void OCCJson::AnalyzeJson()
 	}
 }
 
+void OCCJson::TestArray(const int N, const int n[], int& Z)
+{
+	for (int i = 0; i < N; i++)
+	{
+		Z += n[i];
+	}
+}
+
 

@@ -15,6 +15,7 @@ public:
 	OCCJson();
 	bool LoadJson(System::String^ theFileName);
 	void AnalyzeJson();
+	void TestArray(const int N, const int n[], int& Z);
 
 private:
 	void MarshalString(String^ s, std::string& os);
