@@ -93,8 +93,7 @@ namespace OccView
             if (ActData != null)
             {
                 //ActData.InitWeather();
-                ActData.ToOccJson();
-                //ActData.LoadJson();
+                ActData.LoadJson();
             }
         }
 
@@ -102,7 +101,7 @@ namespace OccView
         {
             if (ActViewer != null)
             {
-
+                ActData.ToOccJson();
             }
         }
 

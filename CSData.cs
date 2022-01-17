@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Data;
+using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
@@ -115,15 +116,22 @@ namespace OccView
                     return;
                 }
                 //analyze json file in C#
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 string jsonString = File.ReadAllText(fileName);
                 StreamReader fileReader = File.OpenText(fileName);
                 JsonTextReader reader = new JsonTextReader(fileReader);
                 JObject job = (JObject)JToken.ReadFrom(reader);
 
-                foreach(var x in job as JObject)
-                {
-                    Console.WriteLine("{0} : {1}", x.Key, x.Value);
-                }
+                stopwatch.Stop();
+                string dur = stopwatch.ElapsedMilliseconds.ToString();
+                Console.WriteLine("CSData::LoadJson() cost " + dur + " ms");
+                stopwatch.Reset();
+                //foreach(var x in job as JObject)
+                //{
+                //    Console.WriteLine("{0} : {1}", x.Key, x.Value);
+                //}
             }
         }
 
