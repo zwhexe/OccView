@@ -58,7 +58,7 @@ namespace OccView
     {
         public CSData()
         {
-            occJson = new OCCJson();
+            occData = new OCCData();
         }
         public void InitWeather()
         {
@@ -92,7 +92,7 @@ namespace OccView
             if (filename == "" || filename == null)
                 return;
 
-            if (!occJson.LoadJson(filename))
+            if (!occData.LoadJson(filename))
             {
                 MessageBox.Show("Can't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -138,37 +138,34 @@ namespace OccView
             }
         }
 
-        public void TestArray()
+        public void TestConvert()
         {
-            int N = 0;
-            int[] n;
-            n = new int[10];
-            for (int i = 0; i < 10; i++)
-            {
-                n[i] = i;
-            }
-
+            //create a struct instance
             HighLowTemps temp = new HighLowTemps(35, 10);
 
+            //get instance size and allocate memory pointer
             int size = Marshal.SizeOf(temp);
             byte[] bytes = new byte[size];
             IntPtr structPtr = Marshal.AllocHGlobal(size);
 
+            //convert struct to pointer
             Marshal.StructureToPtr(temp, structPtr, false);
             Marshal.Copy(structPtr, bytes, 0, size);
 
+            //pass struct to cpp function
             HighLowTemp tp = new HighLowTemp();
             tp.high = temp.High;
             tp.low = temp.Low;
-            occJson.TestTemp(tp);
+
+            occData.TestTemp(tp);
             //occJson.TestTempByt(bytes);
-            occJson.TestTempPtr(structPtr);
+            occData.TestTempPtr(structPtr);
 
             Marshal.FreeHGlobal(structPtr);
         }
 
-        //This is OCC defined json which use nlohmann 
-        private OCCJson occJson;
+        //declare json object and file path
+        private OCCData occData;
         private JObject csJson;
         private string filepath = "D:\\";
     }

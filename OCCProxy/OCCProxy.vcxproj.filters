@@ -18,12 +18,12 @@
     <ClCompile Include="OCCProxy.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="OCCJson.cpp">
+    <ClCompile Include="OCCData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OCCJson.h">
+    <ClInclude Include="OCCData.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

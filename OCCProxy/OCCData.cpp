@@ -1,14 +1,14 @@
-#include "OCCJson.h"
+#include "OCCData.h"
 #include <chrono>
 
 
 
-OCCJson::OCCJson()
+OCCData::OCCData()
 {
 
 }
 
-void OCCJson::MarshalString(String^ s, std::string& os) {
+void OCCData::MarshalString(String^ s, std::string& os) {
 	using namespace Runtime::InteropServices;
 	const char* chars =
 		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
@@ -16,7 +16,7 @@ void OCCJson::MarshalString(String^ s, std::string& os) {
 	Marshal::FreeHGlobal(IntPtr((void*)chars));
 }
 
-bool OCCJson::LoadJson(System::String^ theFileName)
+bool OCCData::LoadJson(System::String^ theFileName)
 {
 
 	std::string filename;
@@ -32,7 +32,7 @@ bool OCCJson::LoadJson(System::String^ theFileName)
 	return true;
 }
 
-void OCCJson::AnalyzeJson()
+void OCCData::AnalyzeJson()
 {
 	if (mJson().empty())
 		return;
@@ -42,19 +42,19 @@ void OCCJson::AnalyzeJson()
 	}
 }
 
-void OCCJson::TestTemp(HighLowTemp temp)
+void OCCData::TestTemp(HighLowTemp temp)
 {
 	std::cout << temp.high << " " << temp.low << std::endl;
 }
 
-void OCCJson::TestTempByt(char RecvBuf[1024])
+void OCCData::TestTempByt(char RecvBuf[1024])
 {
 	HighLowTemp temp;
 	temp = *(HighLowTemp*)&RecvBuf;
 	std::cout << temp.high << " " << temp.low << std::endl;
 }
 
-void OCCJson::TestTempPtr(IntPtr ptr)
+void OCCData::TestTempPtr(IntPtr ptr)
 {
 	HighLowTemp* tp = static_cast<HighLowTemp*>(ptr.ToPointer());
 	std::cout << tp->high << " " << tp->low << std::endl;

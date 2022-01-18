@@ -42,15 +42,12 @@ namespace OccView
     public class OCCViewer
     {
         public OCCProxy View { get; private set; }
-        public OCCJson Json { get; set; }
         public CurrentAction3d currentMode { get; private set; }
         public float mCurZoom;
         public OCCViewer()
         {
             View = new OCCProxy();
             View.InitOCCProxy();
-
-            Json = new OCCJson();
         }
         
         public bool InitViewer()

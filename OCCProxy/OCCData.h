@@ -11,15 +11,15 @@ using json = nlohmann::json;
 
 
 public value struct HighLowTemp
-	{
-		int high;
-		int low;
-	};
+{
+	int high;
+	int low;
+};
 
-public ref class OCCJson
+public ref class OCCData
 {
 public:
-	OCCJson();
+	OCCData();
 	bool LoadJson(System::String^ theFileName);
 	void AnalyzeJson();
 	void TestTemp(HighLowTemp temp);

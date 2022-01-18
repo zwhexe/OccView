@@ -41,7 +41,7 @@ namespace OccView
         {
             InitializeComponent();
             InitViewer();
-            actData = new CSData();
+            data = new CSData();
         }
 
         public void InitViewer()
@@ -82,40 +82,40 @@ namespace OccView
 
         private void Import_Click(object sender, RoutedEventArgs e)
         {
-            if (ActViewer != null)
+            if (viewer != null)
             {
-                ActViewer.ImportModel(ModelFormat.STEP);
+                viewer.ImportModel(ModelFormat.STEP);
             }
         }
 
         private void Occ_Click(object sender, RoutedEventArgs e)
         {
-            if (actData != null)
+            if (data != null)
             {
-                actData.ToOccJson();
+                data.ToOccJson();
             }
         }
 
         private void CSharp_Click(object sender, RoutedEventArgs e)
         {
-            if (actData != null)
+            if (data != null)
             {
                 //actData.InitWeather();
-                actData.LoadJson();
+                data.LoadJson();
             }
         }
 
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            if (actData != null)
+            if (data != null)
             {
-                actData.TestArray();
+                data.TestConvert();
             }
 
         }
 
-        private OCCViewer ActViewer
+        private OCCViewer viewer
         {
             get
             {
@@ -159,7 +159,7 @@ namespace OccView
             Grid aGrid = (ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
-                ActViewer.OnMouseMove(aGrid, e);
+                viewer.OnMouseMove(aGrid, e);
             }
         }
 
@@ -168,7 +168,7 @@ namespace OccView
             Grid aGrid = (ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
-                ActViewer.OnMouseDown(ViewPanel, e);
+                viewer.OnMouseDown(ViewPanel, e);
             }
         }
 
@@ -178,7 +178,7 @@ namespace OccView
 
             if (aGrid != null)
             {
-                ActViewer.OnMouseUp(aGrid, e);
+                viewer.OnMouseUp(aGrid, e);
             }
         }
 
@@ -195,6 +195,6 @@ namespace OccView
 
         }
 
-        private CSData actData;
+        private CSData data;
     }
 }
