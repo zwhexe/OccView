@@ -1,6 +1,8 @@
 #include "OCCJson.h"
 #include <chrono>
 
+
+
 OCCJson::OCCJson()
 {
 
@@ -16,17 +18,16 @@ void OCCJson::MarshalString(String^ s, std::string& os) {
 
 bool OCCJson::LoadJson(System::String^ theFileName)
 {
-	auto t1 = std::chrono::steady_clock::now();
 
 	std::string filename;
-	MarshalString(theFileName, filename);
-	std::ifstream jfile(filename);
-	jfile >> mJson();
+	MarshalString(theFileName, filename);	
+	std::ifstream jfile(filename);	
 
+	auto t1 = std::chrono::steady_clock::now();
+	mJson() = json::parse(jfile);
 	auto t2 = std::chrono::steady_clock::now();
 	double dur = std::chrono::duration<double, std::milli>(t2 - t1).count();
-	std::cout << "OCCJson::OCCJson() cost " << dur << " ms" << std::endl;
-	//AnalyzeJson();
+	std::cout << "nlohmann::LoadJson() size " << mJson().size() << " cost " << dur << " ms" << std::endl;
 
 	return true;
 }
@@ -41,12 +42,21 @@ void OCCJson::AnalyzeJson()
 	}
 }
 
-void OCCJson::TestArray(const int N, const int n[], int& Z)
+void OCCJson::TestTemp(HighLowTemp temp)
 {
-	for (int i = 0; i < N; i++)
-	{
-		Z += n[i];
-	}
+	std::cout << temp.high << " " << temp.low << std::endl;
 }
 
+void OCCJson::TestTempByt(char RecvBuf[1024])
+{
+	HighLowTemp temp;
+	temp = *(HighLowTemp*)&RecvBuf;
+	std::cout << temp.high << " " << temp.low << std::endl;
+}
+
+void OCCJson::TestTempPtr(IntPtr ptr)
+{
+	HighLowTemp* tp = static_cast<HighLowTemp*>(ptr.ToPointer());
+	std::cout << tp->high << " " << tp->low << std::endl;
+}
 

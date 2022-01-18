@@ -9,18 +9,28 @@
 using namespace System;
 using json = nlohmann::json;
 
+
+public value struct HighLowTemp
+	{
+		int high;
+		int low;
+	};
+
 public ref class OCCJson
 {
 public:
 	OCCJson();
 	bool LoadJson(System::String^ theFileName);
 	void AnalyzeJson();
-	void TestArray(const int N, const int n[], int& Z);
+	void TestTemp(HighLowTemp temp);
+	void TestTempByt(char RecvBuf[1024]);
+	void TestTempPtr(IntPtr ptr);
 
 private:
 	void MarshalString(String^ s, std::string& os);
 
 private:
 	NCollection_Haft<json> mJson;
+
 };
 

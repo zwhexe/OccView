@@ -43,7 +43,7 @@ namespace OccView
         }
     }
 
-    public class HighLowTemps
+    public struct HighLowTemps
     {
         public int High { get; set; }
         public int Low { get; set; }
@@ -92,14 +92,9 @@ namespace OccView
             if (filename == "" || filename == null)
                 return;
 
-            unsafe
+            if (!occJson.LoadJson(filename))
             {
-                sbyte* cptr = stackalloc sbyte[26];
-
-                if (!occJson.LoadJson(filename))
-                {
-                    MessageBox.Show("Can't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                MessageBox.Show("Can't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -110,28 +105,71 @@ namespace OccView
             {
                 return;
             }
-            //analyze json file in C#
+            //record analyze json file in C# time elapsed
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             //read json object from json file
-            string jsonString = File.ReadAllText(filename);
             StreamReader fileReader = File.OpenText(filename);
             JsonTextReader reader = new JsonTextReader(fileReader);
-            JObject job = (JObject)JToken.ReadFrom(reader);
+            csJson = (JObject)JToken.ReadFrom(reader);
 
             stopwatch.Stop();
             string dur = stopwatch.ElapsedMilliseconds.ToString();
-            Console.WriteLine("CSData::LoadJson() cost " + dur + " ms");
+            string num = csJson.Count.ToString();
+            Console.WriteLine("CSData::LoadJson() size " + num + " cost " + dur + " ms");
             stopwatch.Reset();
-            //foreach(var x in job as JObject)
-            //{
-            //    Console.WriteLine("{0} : {1}", x.Key, x.Value);
-            //}
+
+            //write json object to json file
+            stopwatch.Start();            
+            string output = Newtonsoft.Json.JsonConvert.SerializeObject(csJson, Newtonsoft.Json.Formatting.Indented);
+            File.WriteAllText("D:\\Test\\Layout.json", output);
+            stopwatch.Stop();
+            dur = stopwatch.ElapsedMilliseconds.ToString();
+            Console.WriteLine("CSData::WriteJson() cost " + dur + " ms");
+            stopwatch.Reset();
+        }
+
+        public void AnalyzeJson()
+        {
+            foreach(var x in csJson as JObject)
+            {
+                Console.WriteLine("{0} : {1}", x.Key, x.Value);
+            }
+        }
+
+        public void TestArray()
+        {
+            int N = 0;
+            int[] n;
+            n = new int[10];
+            for (int i = 0; i < 10; i++)
+            {
+                n[i] = i;
+            }
+
+            HighLowTemps temp = new HighLowTemps(35, 10);
+
+            int size = Marshal.SizeOf(temp);
+            byte[] bytes = new byte[size];
+            IntPtr structPtr = Marshal.AllocHGlobal(size);
+
+            Marshal.StructureToPtr(temp, structPtr, false);
+            Marshal.Copy(structPtr, bytes, 0, size);
+
+            HighLowTemp tp = new HighLowTemp();
+            tp.high = temp.High;
+            tp.low = temp.Low;
+            occJson.TestTemp(tp);
+            //occJson.TestTempByt(bytes);
+            occJson.TestTempPtr(structPtr);
+
+            Marshal.FreeHGlobal(structPtr);
         }
 
         //This is OCC defined json which use nlohmann 
         private OCCJson occJson;
+        private JObject csJson;
         private string filepath = "D:\\";
     }
 }

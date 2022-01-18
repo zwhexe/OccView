@@ -42,7 +42,6 @@ namespace OccView
             InitializeComponent();
             InitViewer();
             actData = new CSData();
-            occJson = new OCCJson();
         }
 
         public void InitViewer()
@@ -89,16 +88,7 @@ namespace OccView
             }
         }
 
-        private void Load_Click(object sender, RoutedEventArgs e)
-        {
-            if (actData != null)
-            {
-                actData.InitWeather();
-                actData.LoadJson();
-            }
-        }
-
-        private void Tool_Click(object sender, RoutedEventArgs e)
+        private void Occ_Click(object sender, RoutedEventArgs e)
         {
             if (actData != null)
             {
@@ -106,22 +96,23 @@ namespace OccView
             }
         }
 
+        private void CSharp_Click(object sender, RoutedEventArgs e)
+        {
+            if (actData != null)
+            {
+                //actData.InitWeather();
+                actData.LoadJson();
+            }
+        }
+
+
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             if (actData != null)
             {
-                int N = 0;
-                int[] n;
-                n = new int[10];
-                for (int i = 0; i < 10; i++)
-                {
-                    n[i] = i;
-                }
-
-                occJson.TestArray(n.Length, n, ref N);
-                Console.WriteLine(N.ToString());
-                Console.Read();
+                actData.TestArray();
             }
+
         }
 
         private OCCViewer ActViewer
@@ -205,6 +196,5 @@ namespace OccView
         }
 
         private CSData actData;
-        private OCCJson occJson;
     }
 }
