@@ -1,19 +1,20 @@
 #pragma once
+#include "json.hpp"
 #include "OccPCH.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
-#include "json.hpp"
 
 using namespace System;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::InteropServices;
 using json = nlohmann::json;
 
 
 static void MarshalString(String^ s, std::string& os) {
 	using namespace Runtime::InteropServices;
-	const char* chars =
-		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+	const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
 	os = chars;
 	Marshal::FreeHGlobal(IntPtr((void*)chars));
 }
@@ -37,6 +38,7 @@ public:
 	void TestTemp(HighLowTemp temp);
 	void TestTempByt(char RecvBuf[1024]);
 	void TestTempPtr(IntPtr ptr);
+	HighLowTemp TestTempRet();
 
 private:
 	NCollection_Haft<TopoDS_Shape> topoShp;

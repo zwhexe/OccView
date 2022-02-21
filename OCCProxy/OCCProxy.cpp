@@ -17,7 +17,7 @@ public:
 
     void Display()
     {
-        if (!occModel->GetShape().IsNull());
+        if (!occModel->GetShape().IsNull())
         {
             occView->DisplayShape(occModel->GetShape());
         }

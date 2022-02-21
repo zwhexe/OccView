@@ -58,6 +58,7 @@ namespace OccView
         {
             Proxy.occModel.MakeBox();
             Proxy.Display();
+            SetDisplayMode();
             FitAll();
         }
 
@@ -104,13 +105,18 @@ namespace OccView
                 }
             }
 
-            Proxy.occView.SetDisplayMode(1);
-            Proxy.occView.ZoomAllView();
+            SetDisplayMode();
+            FitAll();
         }
     
         public void FitAll()
         {
             Proxy.occView.ZoomAllView();
+        }
+
+        public void SetDisplayMode(int theMode = 1)
+        {
+            Proxy.occView.SetDisplayMode(theMode);
         }
 
         public void ZoomWindow()
@@ -136,6 +142,12 @@ namespace OccView
 
         public void OnMouseMove(System.Windows.IInputElement sender, System.Windows.Input.MouseEventArgs e)
         {
+            Point p = new Point((int)e.GetPosition(sender).X, (int)e.GetPosition(sender).Y);
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                Proxy.occView.Rotation(p.X, p.Y);
+                Proxy.occView.RedrawView();
+            }
 
         }
 

@@ -193,11 +193,6 @@ namespace OccView
             }
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private int mViewCounter = 1;
         Dictionary<Grid, D3dViewer> Map = new Dictionary<Grid, D3dViewer>();
 

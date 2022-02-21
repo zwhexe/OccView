@@ -106,7 +106,7 @@ namespace OccView
         public void TestConvert()
         {
             //create C# struct instance
-            HighLowTemps temp = new HighLowTemps(35, 10);
+            HighLowTemps temp = new HighLowTemps(35, 15);
 
             //get instance size and allocate memory pointer
             int size = Marshal.SizeOf(temp);
@@ -127,6 +127,9 @@ namespace OccView
 
             //pass structPtr to C++
             occModel.TestTempPtr(structPtr);
+
+            //get structPtrr from C++
+            //HighLowTemp tt = occModel.TestTempRet();
 
             //release structPtr memory
             Marshal.FreeHGlobal(structPtr);

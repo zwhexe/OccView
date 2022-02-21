@@ -67,3 +67,11 @@ void OCCModel::TestTempPtr(IntPtr ptr)
 	std::cout << tp->high << " " << tp->low << std::endl;
 }
 
+HighLowTemp OCCModel::TestTempRet()
+{
+	HighLowTemp* temp = new HighLowTemp;
+	temp->high = 39;
+	temp->low = 19;
+	return *temp;
+}
+
