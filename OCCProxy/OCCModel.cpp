@@ -1,24 +1,31 @@
-#include "OCCData.h"
+#include "OccPCH.h"
+#include "OCCModel.h"
 #include <chrono>
 
-
-
-OCCData::OCCData()
+OCCModel::OCCModel()
 {
-
+	
 }
 
-void OCCData::MarshalString(String^ s, std::string& os) {
-	using namespace Runtime::InteropServices;
-	const char* chars =
-		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
-	os = chars;
-	Marshal::FreeHGlobal(IntPtr((void*)chars));
+TopoDS_Shape OCCModel::GetShape()
+{
+	return topoShp();
 }
 
-bool OCCData::LoadJson(System::String^ theFileName)
+void OCCModel::MakeBox()
 {
+	gp_Pln pln(gp_Pnt(0.0, 0.0, 30.0), gp_Dir(0, 0, 1));
+	TopoDS_Shape aTopoFace = BRepBuilderAPI_MakeFace(pln, 0, 30, 0, 40).Shape();
+	gp_Trsf trsf;
+	trsf.SetRotation(gp_Ax1(gp_Pnt(0.0, 0.0, 30.0), gp::DX()), -M_PI_4);
+	BRepBuilderAPI_Transform brepTrsf(aTopoFace, trsf);
+	aTopoFace = brepTrsf.Shape();
+	TopoDS_Shape aTopoBox = BRepPrimAPI_MakePrism(aTopoFace, gp_Vec(0.0, -20.0, -20.0));
+	topoShp() = aTopoBox;
+}
 
+bool OCCModel::LoadJson(System::String^ theFileName)
+{
 	std::string filename;
 	MarshalString(theFileName, filename);	
 	std::ifstream jfile(filename);	
@@ -32,7 +39,7 @@ bool OCCData::LoadJson(System::String^ theFileName)
 	return true;
 }
 
-void OCCData::AnalyzeJson()
+void OCCModel::AnalyzeJson()
 {
 	if (mJson().empty())
 		return;
@@ -42,19 +49,19 @@ void OCCData::AnalyzeJson()
 	}
 }
 
-void OCCData::TestTemp(HighLowTemp temp)
+void OCCModel::TestTemp(HighLowTemp temp)
 {
 	std::cout << temp.high << " " << temp.low << std::endl;
 }
 
-void OCCData::TestTempByt(char RecvBuf[1024])
+void OCCModel::TestTempByt(char RecvBuf[1024])
 {
 	HighLowTemp temp;
 	temp = *(HighLowTemp*)&RecvBuf;
 	std::cout << temp.high << " " << temp.low << std::endl;
 }
 
-void OCCData::TestTempPtr(IntPtr ptr)
+void OCCModel::TestTempPtr(IntPtr ptr)
 {
 	HighLowTemp* tp = static_cast<HighLowTemp*>(ptr.ToPointer());
 	std::cout << tp->high << " " << tp->low << std::endl;

@@ -100,7 +100,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OCCViewer.cs" />
+    <Compile Include="OCCProxyer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

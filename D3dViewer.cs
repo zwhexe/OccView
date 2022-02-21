@@ -11,9 +11,10 @@ namespace OccView
     {
         private D3DImage mD3dImg = new D3DImage();
         private IntPtr mColorSurf;
-        public OCCViewer Viewer;
+        public OCCProxyer mProxyer { get; set; }
+        public OCCProxy mProxy { get; set; }
 
-        public D3dViewer()
+        public D3dViewer(OCCProxyer proxyer)
         {
             //register OnIsFrontBufferAvailabelChanged as DependencyPropertyChangedEventHandler to 
             //D3DImage.IsFrontBufferAvailableChanged which is an event(an instaniate delegate)
@@ -21,7 +22,12 @@ namespace OccView
               += new DependencyPropertyChangedEventHandler(OnIsFrontBufferAvailableChanged);
             //once D3DViewer be initialized, attach FrontBuffer method to D3DImage
             //thus D3DImage Front Buffer changed it will notice OnIsFrontBufferAvailableChanged
-            BeginRenderingScene();
+            if (proxyer != null)
+            {
+                mProxyer = proxyer;
+                mProxy = proxyer.Proxy;
+                BeginRenderingScene();
+            }
         }
 
         private void OnIsFrontBufferAvailableChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -51,9 +57,8 @@ namespace OccView
 
             if (mD3dImg.IsFrontBufferAvailable)
             {
-                Viewer = new OCCViewer();
-
-                if (!Viewer.InitViewer())
+                //Proxyer = new OCCProxyer();
+                if (!mProxy.occView.InitViewer())
                 {
                     MessageBox.Show("Failed to initialize OpenGL-Direct3D interoperability!",
                       "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -89,7 +94,7 @@ namespace OccView
                 mD3dImg.Lock();
                 {
                     // Update the scene (via a call into our custom library)
-                    Viewer.View.RedrawView();
+                    mProxy.occView.RedrawView();
 
                     // Invalidate the updated region of the D3DImage
                     mD3dImg.AddDirtyRect(new Int32Rect(0, 0, mD3dImg.PixelWidth, mD3dImg.PixelHeight));
@@ -106,7 +111,7 @@ namespace OccView
                 mD3dImg.Lock();
                 {
                     mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, IntPtr.Zero);
-                    mColorSurf = Viewer.View.ResizeBridgeFBO(theSizeX, theSizeY);
+                    mColorSurf = mProxy.occView.ResizeBridgeFBO(theSizeX, theSizeY);
                     mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, mColorSurf);
                 }
                 mD3dImg.Unlock();

@@ -14,35 +14,6 @@ using System.Runtime.InteropServices;
 
 namespace OccView
 {
-    public class WeatherForecast
-    {
-        public DateTimeOffset Date { get; set; }
-        public int TemperatureCelsius { get; set; }
-        public string Summary { get; set; }
-        public string SummaryField;
-        public IList<DateTimeOffset> DatesAvailable { get; set; }
-        public Dictionary<string, HighLowTemps> TemperatureRanges { get; set; }
-        public string[] SummaryWords { get; set; }
-        public WeatherForecast()
-        {
-            Date = DateTimeOffset.UtcNow;
-            TemperatureCelsius = 105;
-            Summary = "Weather Forecast Success";
-            
-            DatesAvailable = new List<DateTimeOffset>();
-            DatesAvailable.Add(DateTimeOffset.MaxValue);
-            DatesAvailable.Add(DateTimeOffset.MinValue);
-
-            TemperatureRanges = new Dictionary<string, HighLowTemps>();
-            TemperatureRanges["Hot"] = new HighLowTemps(100, 88);
-            TemperatureRanges["Cold"] = new HighLowTemps(55, 49);
-
-            SummaryWords = new string[2];
-            SummaryWords[0] = "Warm";
-            SummaryWords[1] = "Cool";
-        }
-    }
-
     public struct HighLowTemps
     {
         public int High { get; set; }
@@ -58,14 +29,7 @@ namespace OccView
     {
         public CSData()
         {
-            occData = new OCCData();
-        }
-        public void InitWeather()
-        {
-            WeatherForecast weather = new WeatherForecast();
-
-            string jsonString = JsonConvert.SerializeObject(weather, Formatting.Indented);
-            File.WriteAllText(filepath + "CSJson.json", jsonString);
+            occModel = new global::OCCModel();
         }
 
         public string JsonPath()
@@ -92,7 +56,7 @@ namespace OccView
             if (filename == "" || filename == null)
                 return;
 
-            if (!occData.LoadJson(filename))
+            if (!occModel.LoadJson(filename))
             {
                 MessageBox.Show("Can't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -138,9 +102,10 @@ namespace OccView
             }
         }
 
+        //Test_Click to test data pass between C# and C++
         public void TestConvert()
         {
-            //create a struct instance
+            //create C# struct instance
             HighLowTemps temp = new HighLowTemps(35, 10);
 
             //get instance size and allocate memory pointer
@@ -148,25 +113,27 @@ namespace OccView
             byte[] bytes = new byte[size];
             IntPtr structPtr = Marshal.AllocHGlobal(size);
 
-            //convert struct to pointer
+            //convert struct temp to pointer structPtr
             Marshal.StructureToPtr(temp, structPtr, false);
             Marshal.Copy(structPtr, bytes, 0, size);
 
-            //pass struct to cpp function
+            //pass structPtr to C++ function
             HighLowTemp tp = new HighLowTemp();
             tp.high = temp.High;
             tp.low = temp.Low;
 
-            occData.TestTemp(tp);
-            //occJson.TestTempByt(bytes);
-            occData.TestTempPtr(structPtr);
+            //pass struct to C++
+            occModel.TestTemp(tp);
 
+            //pass structPtr to C++
+            occModel.TestTempPtr(structPtr);
+
+            //release structPtr memory
             Marshal.FreeHGlobal(structPtr);
         }
 
         //declare json object and file path
-        private OCCData occData;
+        private global::OCCModel occModel;
         private JObject csJson;
-        private string filepath = "D:\\";
     }
 }

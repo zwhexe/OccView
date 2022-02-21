@@ -36,17 +36,22 @@ namespace OccView
             }
         }
 
-        public D3dViewer mViewer;
+        public CSData mData { get; set; }
+        public D3dViewer mViewer { get; set; }
+        public OCCProxyer mProxyer { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+
+            //init occproxyer include view and model
+            mProxyer = new OCCProxyer();
+            mData = new CSData();
             InitViewer();
-            data = new CSData();
         }
 
         public void InitViewer()
         {
-            mViewer = new D3dViewer();
+            mViewer = new D3dViewer(mProxyer);
             Grid g = new Grid();
             Map.Add(g, mViewer);
             
@@ -82,40 +87,46 @@ namespace OccView
 
         private void Import_Click(object sender, RoutedEventArgs e)
         {
-            if (viewer != null)
+            if (proxyer != null)
             {
-                viewer.ImportModel(ModelFormat.STEP);
+                proxyer.ImportModel(ModelFormat.STEP);
             }
         }
 
         private void Occ_Click(object sender, RoutedEventArgs e)
         {
-            if (data != null)
+            if (mData != null)
             {
-                data.ToOccJson();
+                mData.ToOccJson();
             }
         }
 
         private void CSharp_Click(object sender, RoutedEventArgs e)
         {
-            if (data != null)
+            if (mData != null)
             {
-                //actData.InitWeather();
-                data.LoadJson();
+                mData.LoadJson();
             }
         }
-
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            if (data != null)
+            if (mData != null)
             {
-                data.TestConvert();
+                mData.TestConvert();
             }
 
         }
 
-        private OCCViewer viewer
+        private void Box_Click(object sender, RoutedEventArgs e)
+        {
+            if (proxyer != null)
+            {
+                proxyer.MakeBox();
+            }
+        }
+
+        private OCCProxyer proxyer
         {
             get
             {
@@ -129,7 +140,7 @@ namespace OccView
                 {
                     return null;
                 }
-                return Map[grid].Viewer;
+                return Map[grid].mProxyer;
             }
         }
 
@@ -159,7 +170,7 @@ namespace OccView
             Grid aGrid = (ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
-                viewer.OnMouseMove(aGrid, e);
+                proxyer.OnMouseMove(aGrid, e);
             }
         }
 
@@ -168,7 +179,7 @@ namespace OccView
             Grid aGrid = (ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
-                viewer.OnMouseDown(ViewPanel, e);
+                proxyer.OnMouseDown(ViewPanel, e);
             }
         }
 
@@ -178,7 +189,7 @@ namespace OccView
 
             if (aGrid != null)
             {
-                viewer.OnMouseUp(aGrid, e);
+                proxyer.OnMouseUp(aGrid, e);
             }
         }
 
@@ -194,7 +205,5 @@ namespace OccView
         {
 
         }
-
-        private CSData data;
     }
 }

@@ -39,20 +39,26 @@ namespace OccView
         Wireframe,
         Shading
     }
-    public class OCCViewer
+    public class OCCProxyer
     {
-        public OCCProxy View { get; private set; }
+        public OCCProxy Proxy { get; private set; }
         public CurrentAction3d currentMode { get; private set; }
         public float mCurZoom;
-        public OCCViewer()
+        public OCCProxyer()
         {
-            View = new OCCProxy();
-            View.InitOCCProxy();
+            Proxy = new OCCProxy();
         }
         
         public bool InitViewer()
         {
-            return View.InitViewer();
+            return Proxy.occView.InitViewer();
+        }
+
+        public void MakeBox()
+        {
+            Proxy.occModel.MakeBox();
+            Proxy.Display();
+            FitAll();
         }
 
         public void ImportModel(ModelFormat theFormat)
@@ -92,19 +98,19 @@ namespace OccView
                     return;
                 }
 
-                if (!View.TranslateModel(aFileName, aFormat, true))
+                if (!Proxy.occView.TranslateModel(aFileName, aFormat, true))
                 {
                     MessageBox.Show("Cann't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
 
-            View.SetDisplayMode(1);
-            View.ZoomAllView();
+            Proxy.occView.SetDisplayMode(1);
+            Proxy.occView.ZoomAllView();
         }
     
         public void FitAll()
         {
-            View.ZoomAllView();
+            Proxy.occView.ZoomAllView();
         }
 
         public void ZoomWindow()
@@ -124,7 +130,7 @@ namespace OccView
 
         public void GlobalPanning()
         {
-            mCurZoom = View.Scale();
+            mCurZoom = Proxy.occView.Scale();
             currentMode = CurrentAction3d.CurAction3d_GlobalPanning;
         }
 

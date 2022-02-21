@@ -1,5 +1,5 @@
 #pragma once
-#include <NCollection_Haft.h>
+#include "OccPCH.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,16 +10,28 @@ using namespace System;
 using json = nlohmann::json;
 
 
+static void MarshalString(String^ s, std::string& os) {
+	using namespace Runtime::InteropServices;
+	const char* chars =
+		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+	os = chars;
+	Marshal::FreeHGlobal(IntPtr((void*)chars));
+}
+
 public value struct HighLowTemp
 {
 	int high;
 	int low;
 };
 
-public ref class OCCData
+public ref class OCCModel
 {
 public:
-	OCCData();
+	OCCModel();
+	TopoDS_Shape GetShape();
+
+	void MakeBox();
+
 	bool LoadJson(System::String^ theFileName);
 	void AnalyzeJson();
 	void TestTemp(HighLowTemp temp);
@@ -27,10 +39,7 @@ public:
 	void TestTempPtr(IntPtr ptr);
 
 private:
-	void MarshalString(String^ s, std::string& os);
-
-private:
+	NCollection_Haft<TopoDS_Shape> topoShp;
 	NCollection_Haft<json> mJson;
-
 };
 
