@@ -29,7 +29,7 @@ namespace OccView
     {
         public CSData()
         {
-            occModel = new global::OCCModel();
+            cppData = new CPPData();
         }
 
         public string JsonPath()
@@ -56,7 +56,7 @@ namespace OccView
             if (filename == "" || filename == null)
                 return;
 
-            if (!occModel.LoadJson(filename))
+            if (!cppData.LoadJson(filename))
             {
                 MessageBox.Show("Can't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -105,38 +105,38 @@ namespace OccView
         //Test_Click to test data pass between C# and C++
         public void TestConvert()
         {
-            //create C# struct instance
+            //0.create C# struct instance
             HighLowTemps temp = new HighLowTemps(35, 15);
-
-            //get instance size and allocate memory pointer
-            int size = Marshal.SizeOf(temp);
-            byte[] bytes = new byte[size];
-            IntPtr structPtr = Marshal.AllocHGlobal(size);
-
-            //convert struct temp to pointer structPtr
-            Marshal.StructureToPtr(temp, structPtr, false);
-            Marshal.Copy(structPtr, bytes, 0, size);
-
-            //pass structPtr to C++ function
+            
+            //1.create CLI struct and pass to CLI
             HighLowTemp tp = new HighLowTemp();
             tp.high = temp.High;
             tp.low = temp.Low;
+            cppData.TestTemp(tp);
 
-            //pass struct to C++
-            occModel.TestTemp(tp);
+            //2.alloc IntPtr and pass to CLI
+            int size = Marshal.SizeOf(temp);
+            IntPtr structPtr = Marshal.AllocHGlobal(size);
+            Marshal.StructureToPtr(temp, structPtr, false);
+            cppData.TestTempPtr(structPtr);
 
-            //pass structPtr to C++
-            occModel.TestTempPtr(structPtr);
+            //3.alloc bytes and pass to CLI
+            //byte[] bytes = new byte[size];
+            //Marshal.Copy(structPtr, bytes, 0, size);
+            //cppData.TestTempByt(bytes);
 
-            //get structPtrr from C++
-            //HighLowTemp tt = occModel.TestTempRet();
-
-            //release structPtr memory
+            //4.get structPtr from CLI
+            IntPtr pt = cppData.TestTempRet();
+            HighLowTemps tps = (HighLowTemps)Marshal.PtrToStructure(pt, typeof(HighLowTemps));
+            Console.WriteLine("{0} {1}", tps.High, tps.Low);
+            
+            //5.release structPtr memory
             Marshal.FreeHGlobal(structPtr);
+            Marshal.FreeHGlobal(pt);
         }
 
         //declare json object and file path
-        private global::OCCModel occModel;
+        private CPPData cppData;
         private JObject csJson;
     }
 }

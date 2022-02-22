@@ -1,5 +1,6 @@
 #include "OccPCH.h"
 #include "OCCModel.h"
+#include <iostream>
 #include <chrono>
 
 OCCModel::OCCModel()
@@ -7,9 +8,9 @@ OCCModel::OCCModel()
 	
 }
 
-TopoDS_Shape OCCModel::GetShape()
+TopoDS_Shape OCCModel::GetTopoShape()
 {
-	return topoShp();
+	return occShp();
 }
 
 void OCCModel::MakeBox()
@@ -21,57 +22,20 @@ void OCCModel::MakeBox()
 	BRepBuilderAPI_Transform brepTrsf(aTopoFace, trsf);
 	aTopoFace = brepTrsf.Shape();
 	TopoDS_Shape aTopoBox = BRepPrimAPI_MakePrism(aTopoFace, gp_Vec(0.0, -20.0, -20.0));
-	topoShp() = aTopoBox;
+	occShp() = aTopoBox;
 }
 
-bool OCCModel::LoadJson(System::String^ theFileName)
+void OCCModel::MakeSphere()
 {
-	std::string filename;
-	MarshalString(theFileName, filename);	
-	std::ifstream jfile(filename);	
-
-	auto t1 = std::chrono::steady_clock::now();
-	mJson() = json::parse(jfile);
-	auto t2 = std::chrono::steady_clock::now();
-	double dur = std::chrono::duration<double, std::milli>(t2 - t1).count();
-	std::cout << "nlohmann::LoadJson() size " << mJson().size() << " cost " << dur << " ms" << std::endl;
-
-	return true;
+	gp_Pnt pnt(0, 0, 0);
+	TopoDS_Shape aShpere = ::BRepPrimAPI_MakeSphere(pnt, 30).Shape();
+	occShp() = aShpere;
 }
 
-void OCCModel::AnalyzeJson()
+void OCCModel::MakeCylinder()
 {
-	if (mJson().empty())
-		return;
-	for (auto j : mJson())
-	{
-		std::cout << j << std::endl;
-	}
+	double R = 10;
+	double H = 30;
+	
+	occShp() = OCCT::BRepPrimAPI_MakeCylinder(R, H).Shape();
 }
-
-void OCCModel::TestTemp(HighLowTemp temp)
-{
-	std::cout << temp.high << " " << temp.low << std::endl;
-}
-
-void OCCModel::TestTempByt(char RecvBuf[1024])
-{
-	HighLowTemp temp;
-	temp = *(HighLowTemp*)&RecvBuf;
-	std::cout << temp.high << " " << temp.low << std::endl;
-}
-
-void OCCModel::TestTempPtr(IntPtr ptr)
-{
-	HighLowTemp* tp = static_cast<HighLowTemp*>(ptr.ToPointer());
-	std::cout << tp->high << " " << tp->low << std::endl;
-}
-
-HighLowTemp OCCModel::TestTempRet()
-{
-	HighLowTemp* temp = new HighLowTemp;
-	temp->high = 39;
-	temp->low = 19;
-	return *temp;
-}
-

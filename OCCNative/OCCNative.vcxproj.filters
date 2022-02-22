@@ -15,40 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OCCProxy.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OCCModel.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OccPCH.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OCCView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CPPData.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <ClInclude Include="NativeShape.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NativePCH.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OCCModel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="OccPCH.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="OCCView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CPPData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="OccCLI.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="BRep.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <ClCompile Include="NativeShape.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="NativePCH.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

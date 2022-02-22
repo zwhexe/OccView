@@ -62,6 +62,22 @@ namespace OccView
             FitAll();
         }
 
+        public void MakeSphere()
+        {
+            Proxy.occModel.MakeSphere();
+            Proxy.Display();
+            SetDisplayMode();
+            FitAll();
+        }
+
+        public void MakeCylinder()
+        {
+            Proxy.occModel.MakeCylinder();
+            Proxy.Display();
+            SetDisplayMode();
+            FitAll();
+        }
+
         public void ImportModel(ModelFormat theFormat)
         {
             int aFormat = 10;

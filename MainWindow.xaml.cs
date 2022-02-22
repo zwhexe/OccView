@@ -109,6 +109,30 @@ namespace OccView
             }
         }
 
+        private void Box_Click(object sender, RoutedEventArgs e)
+        {
+            if (proxyer != null)
+            {
+                proxyer.MakeBox();
+            }
+        }
+
+        private void Sphere_Click(object sender, RoutedEventArgs e)
+        {
+            if (proxyer != null)
+            {
+                proxyer.MakeSphere();
+            }
+        }
+
+        private void Cylinder_Click(object sender, RoutedEventArgs e)
+        {
+            if (proxyer != null)
+            {
+                proxyer.MakeCylinder();
+            }
+        }
+
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             if (mData != null)
@@ -116,14 +140,6 @@ namespace OccView
                 mData.TestConvert();
             }
 
-        }
-
-        private void Box_Click(object sender, RoutedEventArgs e)
-        {
-            if (proxyer != null)
-            {
-                proxyer.MakeBox();
-            }
         }
 
         private OCCProxyer proxyer

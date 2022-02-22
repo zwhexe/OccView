@@ -1,0 +1,31 @@
+#include "NativePCH.h"
+
+#pragma comment(lib, "TKernel.lib")
+#pragma comment(lib, "TKMath.lib")
+
+#pragma comment(lib, "TKXSBase.lib")
+#pragma comment(lib, "TKV3d.lib")
+#pragma comment(lib, "TKG3d.lib")
+#pragma comment(lib, "TKGeomBase.lib")
+#pragma comment(lib, "TKG2d.lib")
+#pragma comment(lib, "TKBRep.lib")
+#pragma comment(lib, "TKIGES.lib")
+#pragma comment(lib, "TKSTEP.lib")
+#pragma comment(lib, "TKStl.lib")
+
+#pragma comment(lib, "TKPrim.lib")
+#pragma comment(lib, "TKOffset.lib")
+#pragma comment(lib, "TKFillet.lib")
+#pragma comment(lib, "TKBool.lib")
+#pragma comment(lib, "TKFeat.lib")
+#pragma comment(lib, "TKBO.lib")
+#pragma comment(lib, "TKTopAlgo.lib")
+#pragma comment(lib, "TKGeomAlgo.lib")
+#pragma comment(lib, "TKShHealing")
+#pragma comment(lib, "TKHLR")
+
+#pragma comment(lib, "TKService.lib")
+#pragma comment(lib, "TKOpenGl.lib")
+#pragma comment(lib, "TKD3dHost.lib")
+#pragma comment(lib, "TKVrml.lib")
+#pragma comment(lib, "TKLCAF.lib")

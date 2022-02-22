@@ -20,6 +20,8 @@
             </MenuItem>
             <MenuItem Header="Primitive" Height="21" Width="60">
                 <MenuItem Header="Box" HorizontalAlignment="Left" Height="21" Width="144" Click="Box_Click"/>
+                <MenuItem Header="Sphere" HorizontalAlignment="Left" Height="21" Width="144" Click="Sphere_Click"/>
+                <MenuItem Header="Cylinder" HorizontalAlignment="Left" Height="21" Width="144" Click="Cylinder_Click"/>
             </MenuItem>
             <MenuItem Header="Tool" Height="21" Width="40">
                 <MenuItem Header="Test" HorizontalAlignment="Left" Height="21" Width="144" Click="Test_Click"/>
