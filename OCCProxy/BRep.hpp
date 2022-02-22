@@ -19,7 +19,7 @@ namespace OCCT
 			myPtr = new ::BRepPrimAPI_MakeCylinder(R, H, Angle);
 		}
 
-		TopoDS_Shape Shape()
+		::TopoDS_Shape Shape()
 		{
 			return myPtr->Shape();
 		}

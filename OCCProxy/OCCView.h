@@ -3,6 +3,7 @@
 #include <vcclr.h>
 #include <windows.h>
 #include "OccPCH.h"
+#include "Shape.hpp"
 
 static TCollection_AsciiString toAsciiString(String^ theString)
 {
@@ -50,6 +51,7 @@ public:
     void SetDisplayMode(int theMode);
     float GetOCCVersion();
     void DisplayShape(TopoDS_Shape& theShp);
+    void DisplayShape(OCCT::TopoDS_Shape^ octShp);
     bool SetAisContext(OCCView^ theViewer);
     Handle(AIS_InteractiveContext) GetContext();
     bool ImportBrep(System::String^ theFileName);

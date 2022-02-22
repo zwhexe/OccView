@@ -255,6 +255,12 @@ void OCCView::DisplayShape(TopoDS_Shape& theShp)
     GetContext()->Display(aisShp, Standard_True);
 }
 
+void OCCView::DisplayShape(OCCT::TopoDS_Shape^ octShp)
+{
+    Handle(AIS_Shape) aisShp = new AIS_Shape(octShp());
+    GetContext()->Display(aisShp, Standard_True);
+}
+
 bool OCCView::SetAisContext(OCCView^ theViewer)
 {
     this->mAisContext() = theViewer->GetContext();

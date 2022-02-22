@@ -50,5 +50,8 @@
     <ClInclude Include="BRep.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Shape.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

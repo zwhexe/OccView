@@ -87,9 +87,9 @@ namespace OccView
 
         private void Import_Click(object sender, RoutedEventArgs e)
         {
-            if (proxyer != null)
+            if (d3dviewer != null)
             {
-                proxyer.ImportModel(ModelFormat.STEP);
+                d3dviewer.ImportModel(ModelFormat.STEP);
             }
         }
 
@@ -111,25 +111,41 @@ namespace OccView
 
         private void Box_Click(object sender, RoutedEventArgs e)
         {
-            if (proxyer != null)
+            if (d3dviewer != null)
             {
-                proxyer.MakeBox();
+                mProxyer.MakeBox();
+                d3dviewer.SetDisplayMode();
+                d3dviewer.FitAll();
+            }
+        }
+
+        private void Cone_Click(object sender, RoutedEventArgs e)
+        {
+            if (d3dviewer != null)
+            {
+                mProxyer.MakeCone();
+                d3dviewer.SetDisplayMode();
+                d3dviewer.FitAll();
             }
         }
 
         private void Sphere_Click(object sender, RoutedEventArgs e)
         {
-            if (proxyer != null)
+            if (d3dviewer != null)
             {
-                proxyer.MakeSphere();
+                mProxyer.MakeSphere();
+                d3dviewer.SetDisplayMode();
+                d3dviewer.FitAll();
             }
         }
 
         private void Cylinder_Click(object sender, RoutedEventArgs e)
         {
-            if (proxyer != null)
+            if (d3dviewer != null)
             {
-                proxyer.MakeCylinder();
+                mProxyer.MakeCylinder();
+                d3dviewer.SetDisplayMode();
+                d3dviewer.FitAll();
             }
         }
 
@@ -142,7 +158,7 @@ namespace OccView
 
         }
 
-        private OCCProxyer proxyer
+        private D3dViewer d3dviewer
         {
             get
             {
@@ -156,7 +172,7 @@ namespace OccView
                 {
                     return null;
                 }
-                return Map[grid].mProxyer;
+                return Map[grid];
             }
         }
 
@@ -186,7 +202,7 @@ namespace OccView
             Grid aGrid = (ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
-                proxyer.OnMouseMove(aGrid, e);
+                d3dviewer.OnMouseMove(aGrid, e);
             }
         }
 
@@ -195,7 +211,7 @@ namespace OccView
             Grid aGrid = (ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
-                proxyer.OnMouseDown(ViewPanel, e);
+                d3dviewer.OnMouseDown(ViewPanel, e);
             }
         }
 
@@ -205,7 +221,7 @@ namespace OccView
 
             if (aGrid != null)
             {
-                proxyer.OnMouseUp(aGrid, e);
+                d3dviewer.OnMouseUp(aGrid, e);
             }
         }
 

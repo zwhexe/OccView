@@ -2,6 +2,7 @@
 #include "OccPCH.h"
 #include "OccCLI.h"
 #include "BRep.hpp"
+#include "Shape.hpp"
 
 public ref class OCCModel
 {
@@ -16,6 +17,6 @@ public:
 	void MakeCylinder();
 
 private:
-	OCCT::OccCLI<TopoDS_Shape> occShp;
+	OCCT::OccCLI<::TopoDS_Shape> occShp;
 };
 

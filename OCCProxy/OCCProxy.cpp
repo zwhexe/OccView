@@ -27,10 +27,18 @@ public:
         }
     }
 
+    void MakeOctShape()
+    {
+        natShape->makeCone();
+        TopoDS_Shape shp = natShape->getShape();
+        octShape = gcnew OCCT::TopoDS_Shape(shp);
+    }
+
 public:
     //OCC proxy class
     OCCView^ occView;
     OCCModel^ occModel;
     //OCC dll class
     NativeShape* natShape;
+    OCCT::TopoDS_Shape^ octShape;
 };
