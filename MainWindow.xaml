@@ -21,6 +21,8 @@
             <MenuItem Header="Primitive" Height="21" Width="60">
                 <MenuItem Header="Box" HorizontalAlignment="Left" Height="21" Width="144" Click="Box_Click"/>
                 <MenuItem Header="Cone" HorizontalAlignment="Left" Height="21" Width="144" Click="Cone_Click"/>
+                <MenuItem Header="Torus" HorizontalAlignment="Left" Height="21" Width="144" Click="Torus_Click"/>
+                <MenuItem Header="Wedge" HorizontalAlignment="Left" Height="21" Width="144" Click="Wedge_Click"/>
                 <MenuItem Header="Sphere" HorizontalAlignment="Left" Height="21" Width="144" Click="Sphere_Click"/>
                 <MenuItem Header="Cylinder" HorizontalAlignment="Left" Height="21" Width="144" Click="Cylinder_Click"/>
             </MenuItem>

@@ -4,16 +4,16 @@
 
 namespace OCCT
 {
-	public ref class BRepPrimAPI_MakeCylinder : public OCCT::OccCLI<::BRepPrimAPI_MakeCylinder>
+	public ref class OCCT_MakeCylinder : public OCCT::OccCLI<::BRepPrimAPI_MakeCylinder>
 	{
 	public:
-		BRepPrimAPI_MakeCylinder(double R, double H) 
+		OCCT_MakeCylinder(double R, double H)
 			: OCCT::OccCLI<::BRepPrimAPI_MakeCylinder>(OccCLI::InitMode::Uninitialized)
 		{
 			myPtr = new ::BRepPrimAPI_MakeCylinder(R, H);
 		}
 
-		BRepPrimAPI_MakeCylinder(double R, double H, double Angle) 
+		OCCT_MakeCylinder(double R, double H, double Angle)
 			: OCCT::OccCLI<::BRepPrimAPI_MakeCylinder>(OccCLI::InitMode::Uninitialized)
 		{
 			myPtr = new ::BRepPrimAPI_MakeCylinder(R, H, Angle);

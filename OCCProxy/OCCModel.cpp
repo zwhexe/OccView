@@ -37,6 +37,6 @@ void OCCModel::MakeCylinder()
 	double R = 10;
 	double H = 30;
 	
-	TopoDS_Shape topoShp = OCCT::BRepPrimAPI_MakeCylinder(R, H).Shape();
+	TopoDS_Shape topoShp = OCCT::OCCT_MakeCylinder(R, H).Shape();
 	occShp() = topoShp;
 }

@@ -47,11 +47,13 @@ namespace OccView
             mProxyer = new OCCProxyer();
             mData = new CSData();
             InitViewer();
+            mProxyer.Proxy.SetView(mViewer.mView);
         }
 
         public void InitViewer()
         {
-            mViewer = new D3dViewer(mProxyer);
+            //0.create Grid with Viewer
+            mViewer = new D3dViewer();
             Grid g = new Grid();
             Map.Add(g, mViewer);
             
@@ -60,6 +62,7 @@ namespace OccView
 
             //2.use ImageBrush to fill grid background
             g.Background = imgBrush;
+            g.MouseWheel += new MouseWheelEventHandler(g_MouseWheel);
             g.MouseMove += new MouseEventHandler(g_MouseMove);
             g.MouseDown += new MouseButtonEventHandler(g_MouseDown);
             g.MouseUp += new MouseButtonEventHandler(g_MouseUp);
@@ -124,6 +127,26 @@ namespace OccView
             if (d3dviewer != null)
             {
                 mProxyer.MakeCone();
+                d3dviewer.SetDisplayMode();
+                d3dviewer.FitAll();
+            }
+        }
+
+        private void Torus_Click(object sender, RoutedEventArgs e)
+        {
+            if (d3dviewer != null)
+            {
+                mProxyer.MakeTorus();
+                d3dviewer.SetDisplayMode();
+                d3dviewer.FitAll();
+            }
+        }
+
+        private void Wedge_Click(object sender, RoutedEventArgs e)
+        {
+            if (d3dviewer != null)
+            {
+                mProxyer.MakeWedge();
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
             }
@@ -195,6 +218,15 @@ namespace OccView
 
             Map[aGrid].Resize(Convert.ToInt32(e.NewSize.Width),
                                Convert.ToInt32(e.NewSize.Height));
+        }
+
+        void g_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            if (aGrid != null)
+            {
+                d3dviewer.OnMouseWheel(aGrid, e);
+            }
         }
 
         void g_MouseMove(object sender, MouseEventArgs e)

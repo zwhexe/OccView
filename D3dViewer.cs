@@ -48,9 +48,13 @@ namespace OccView
         private IntPtr mColorSurf;
         public CurrentAction3d currentMode { get; private set; }
         public float mCurZoom;
-        public OCCProxy mProxy { get; set; }
+        private int myXmax;
+        private int myYmax;
+        private int myXmin;
+        private int myYmin;
+        public OCCView mView { get; set; }
 
-        public D3dViewer(OCCProxyer proxyer)
+        public D3dViewer()
         {
             //register OnIsFrontBufferAvailabelChanged as DependencyPropertyChangedEventHandler to 
             //D3DImage.IsFrontBufferAvailableChanged which is an event(an instaniate delegate)
@@ -58,11 +62,8 @@ namespace OccView
               += new DependencyPropertyChangedEventHandler(OnIsFrontBufferAvailableChanged);
             //once D3DViewer be initialized, attach FrontBuffer method to D3DImage
             //thus D3DImage Front Buffer changed it will notice OnIsFrontBufferAvailableChanged
-            if (proxyer != null)
-            {
-                mProxy = proxyer.Proxy;
-                BeginRenderingScene();
-            }
+            mView = new OCCView(); 
+            BeginRenderingScene();
         }
 
         private void OnIsFrontBufferAvailableChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -93,7 +94,7 @@ namespace OccView
             if (mD3dImg.IsFrontBufferAvailable)
             {
                 //Proxyer = new OCCProxyer();
-                if (!mProxy.occView.InitViewer())
+                if (!mView.InitViewer())
                 {
                     MessageBox.Show("Failed to initialize OpenGL-Direct3D interoperability!",
                       "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -129,7 +130,7 @@ namespace OccView
                 mD3dImg.Lock();
                 {
                     // Update the scene (via a call into our custom library)
-                    mProxy.occView.RedrawView();
+                    mView.RedrawView();
 
                     // Invalidate the updated region of the D3DImage
                     mD3dImg.AddDirtyRect(new Int32Rect(0, 0, mD3dImg.PixelWidth, mD3dImg.PixelHeight));
@@ -146,7 +147,7 @@ namespace OccView
                 mD3dImg.Lock();
                 {
                     mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, IntPtr.Zero);
-                    mColorSurf = mProxy.occView.ResizeBridgeFBO(theSizeX, theSizeY);
+                    mColorSurf = mView.ResizeBridgeFBO(theSizeX, theSizeY);
                     mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, mColorSurf);
                 }
                 mD3dImg.Unlock();
@@ -189,7 +190,12 @@ namespace OccView
                 {
                     return;
                 }
+                if (!mView.TranslateModel(aFileName, aFormat, true))
+                {
+                    Console.WriteLine("Failed to Open File!");
+                }
             }
+            mView.ZoomAllView();
         }
 
         public D3DImage Image
@@ -199,12 +205,12 @@ namespace OccView
 
         public void FitAll()
         {
-            mProxy.occView.ZoomAllView();
+            mView.ZoomAllView();
         }
 
         public void SetDisplayMode(int theMode = 1)
         {
-            mProxy.occView.SetDisplayMode(theMode);
+            mView.SetDisplayMode(theMode);
         }
 
         public void ZoomWindow()
@@ -224,29 +230,62 @@ namespace OccView
 
         public void GlobalPanning()
         {
-            mCurZoom = mProxy.occView.Scale();
+            mCurZoom = mView.Scale();
             currentMode = CurrentAction3d.CurAction3d_GlobalPanning;
         }
 
-        public void OnMouseMove(System.Windows.IInputElement sender, System.Windows.Input.MouseEventArgs e)
+        public void OnMouseWheel(System.Windows.IInputElement sender, MouseWheelEventArgs e)
+        {
+            System.Drawing.Point p = new System.Drawing.Point((int)e.GetPosition(sender).X, (int)e.GetPosition(sender).Y);
+            int aX = p.X;
+            int aY = p.Y;
+            int aFactor = 16;
+            if (e.Delta > 0)
+            {
+                aX += aFactor;
+                aY += aFactor;
+            }
+            else
+            {
+                aX -= aFactor;
+                aY -= aFactor;
+            }
+
+            mView.Zoom(p.X, p.Y, aX, aY);
+        }
+
+        public void OnMouseMove(System.Windows.IInputElement sender, MouseEventArgs e)
         {
             System.Drawing.Point p = new System.Drawing.Point((int)e.GetPosition(sender).X, (int)e.GetPosition(sender).Y);
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                mProxy.occView.Rotation(p.X, p.Y);
-                mProxy.occView.RedrawView();
+                mView.Rotation(p.X, p.Y);
             }
-
+            else if (e.LeftButton == MouseButtonState.Pressed && Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                mView.Pan(p.X - myXmax, myYmax - p.Y);
+                myXmax = p.X;
+                myYmax = p.Y;
+            }
         }
 
         public void OnMouseDown(System.Windows.IInputElement sender, MouseButtonEventArgs e)
         {
-
+            System.Drawing.Point p = new System.Drawing.Point((int)e.GetPosition(sender).X, (int)e.GetPosition(sender).Y);
+            myXmax = p.X;
+            myYmax = p.Y;
+            myXmin = p.X;
+            myYmin = p.Y;
+            if (e.MiddleButton == MouseButtonState.Pressed && Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                FitAll();
+            }    
         }
 
         public void OnMouseUp(System.Windows.IInputElement sender, MouseButtonEventArgs e)
         {
 
         }
+
     }
 }

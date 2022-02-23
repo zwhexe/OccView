@@ -1,4 +1,5 @@
 #include "OCCView.h"
+#include <d3d9.h>
 
 OCCView::OCCView()
 {
@@ -19,8 +20,14 @@ bool OCCView::InitViewer()
     Handle(WNT_Window) aWNTWindow = new WNT_Window("OCC_Viewer", aWClass, WS_POPUP, 64, 64, 64, 64);
     aWNTWindow->SetVirtual(Standard_True);
     mView()->SetWindow(aWNTWindow);
+    mView()->SetBackgroundColor(Quantity_NOC_BLACK);
+    mView()->MustBeResized();
+    mView()->TriedronDisplay(Aspect_TOTP_LEFT_LOWER, Quantity_NOC_GOLD, 0.08, V3d_ZBUFFER);
 
     mAisContext() = new AIS_InteractiveContext(mViewer());
+    mAisContext()->SetDisplayMode(AIS_Shaded, Standard_False);
+    mAisContext()->Activate(AIS_Shape::SelectionMode(TopAbs_SHAPE), Standard_True);
+    mAisContext()->SetPixelTolerance(1);
     mAisContext()->UpdateCurrentViewer();
     mView()->MustBeResized();
     return true;
@@ -255,7 +262,7 @@ void OCCView::DisplayShape(TopoDS_Shape& theShp)
     GetContext()->Display(aisShp, Standard_True);
 }
 
-void OCCView::DisplayShape(OCCT::TopoDS_Shape^ octShp)
+void OCCView::DisplayShape(OCCT::OCCT_Shape^ octShp)
 {
     Handle(AIS_Shape) aisShp = new AIS_Shape(octShp());
     GetContext()->Display(aisShp, Standard_True);

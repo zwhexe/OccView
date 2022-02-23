@@ -51,7 +51,7 @@ public:
     void SetDisplayMode(int theMode);
     float GetOCCVersion();
     void DisplayShape(TopoDS_Shape& theShp);
-    void DisplayShape(OCCT::TopoDS_Shape^ octShp);
+    void DisplayShape(OCCT::OCCT_Shape^ octShp);
     bool SetAisContext(OCCView^ theViewer);
     Handle(AIS_InteractiveContext) GetContext();
     bool ImportBrep(System::String^ theFileName);

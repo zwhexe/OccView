@@ -4,15 +4,16 @@
 #else
 #define OCC_DLL_CLASS __declspec(dllimport)
 #endif
-#include <gp_Ax2.hxx>
-#include <TopoDS_Shape.hxx>
-#include <BRepPrimAPI_MakeCone.hxx>
+#include "NativePCH.h"
 
 class OCC_DLL_CLASS NativeShape
 {
 public:
 	NativeShape();
 	void makeCone();
+	void makeTorus();
+	void makeWedge();
+
 	TopoDS_Shape getShape();
 
 private:
