@@ -1,13 +1,13 @@
-#include "CPPData.h"
+#include "JsonData.h"
 #include "OccPCH.h"
 #include <chrono>
 
-CPPData::CPPData()
+JsonData::JsonData()
 {
 
 }
 
-bool CPPData::LoadJson(System::String^ theFileName)
+bool JsonData::LoadJson(System::String^ theFileName)
 {
 	std::string filename;
 	MarshalString(theFileName, filename);
@@ -22,7 +22,7 @@ bool CPPData::LoadJson(System::String^ theFileName)
 	return true;
 }
 
-void CPPData::AnalyzeJson()
+void JsonData::AnalyzeJson()
 {
 	if (mJson().empty())
 		return;
@@ -32,26 +32,26 @@ void CPPData::AnalyzeJson()
 	}
 }
 
-void CPPData::TestTemp(HighLowTemp temp)
+void JsonData::TestTemp(HighLowTemp temp)
 {
 	std::cout << temp.high << " " << temp.low << std::endl;
 }
 
-void CPPData::TestTempPtr(IntPtr ptr)
+void JsonData::TestTempPtr(IntPtr ptr)
 {
 	HighLowTemp* tp = static_cast<HighLowTemp*>(ptr.ToPointer());
 	std::cout << tp->high << " " << tp->low << std::endl;
 	Marshal::FreeHGlobal(ptr);
 }
 
-void CPPData::TestTempByt(char RecvBuf[1024])
+void JsonData::TestTempByt(char RecvBuf[1024])
 {
 	HighLowTemp temp;
 	temp = *(HighLowTemp*)&RecvBuf;
 	std::cout << temp.high << " " << temp.low << std::endl;
 }
 
-IntPtr CPPData::TestTempRet()
+IntPtr JsonData::TestTempRet()
 {
 	HighLowTemp^ temp = gcnew HighLowTemp;
 	temp->high = 39;

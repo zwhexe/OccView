@@ -25,11 +25,11 @@ namespace OccView
         }
     }
 
-    public class CSData
+    public class TestData
     {
-        public CSData()
+        public TestData()
         {
-            cppData = new CPPData();
+            jsData = new JsonData();
         }
 
         public string JsonPath()
@@ -56,7 +56,7 @@ namespace OccView
             if (filename == "" || filename == null)
                 return;
 
-            if (!cppData.LoadJson(filename))
+            if (!jsData.LoadJson(filename))
             {
                 MessageBox.Show("Can't read this file", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -112,13 +112,13 @@ namespace OccView
             HighLowTemp tp = new HighLowTemp();
             tp.high = temp.High;
             tp.low = temp.Low;
-            cppData.TestTemp(tp);
+            jsData.TestTemp(tp);
 
             //2.alloc IntPtr and pass to CLI
             int size = Marshal.SizeOf(temp);
             IntPtr structPtr = Marshal.AllocHGlobal(size);
             Marshal.StructureToPtr(temp, structPtr, false);
-            cppData.TestTempPtr(structPtr);
+            jsData.TestTempPtr(structPtr);
 
             //3.alloc bytes and pass to CLI
             //byte[] bytes = new byte[size];
@@ -126,7 +126,7 @@ namespace OccView
             //cppData.TestTempByt(bytes);
 
             //4.get structPtr from CLI
-            IntPtr pt = cppData.TestTempRet();
+            IntPtr pt = jsData.TestTempRet();
             HighLowTemps tps = (HighLowTemps)Marshal.PtrToStructure(pt, typeof(HighLowTemps));
             Console.WriteLine("{0} {1}", tps.High, tps.Low);
             
@@ -136,7 +136,7 @@ namespace OccView
         }
 
         //declare json object and file path
-        private CPPData cppData;
+        private JsonData jsData;
         private JObject csJson;
     }
 }

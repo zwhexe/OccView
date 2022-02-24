@@ -36,7 +36,7 @@ namespace OccView
             }
         }
 
-        public CSData mData { get; set; }
+        public TestData mData { get; set; }
         public D3dViewer mViewer { get; set; }
         public OCCProxyer mProxyer { get; set; }
         public MainWindow()
@@ -45,7 +45,7 @@ namespace OccView
 
             //init occproxyer include view and model
             mProxyer = new OCCProxyer();
-            mData = new CSData();
+            mData = new TestData();
             InitViewer();
             mProxyer.Proxy.SetView(mViewer.mView);
         }

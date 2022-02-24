@@ -267,6 +267,13 @@ namespace OccView
                 myXmax = p.X;
                 myYmax = p.Y;
             }
+            else
+            {
+                //Occ MoveTo display selection when mouse on shape
+                myXmax = p.X;
+                myYmax = p.Y;
+                mView.MoveTo(p.X, p.Y);
+            }
         }
 
         public void OnMouseDown(System.Windows.IInputElement sender, MouseButtonEventArgs e)
@@ -279,7 +286,11 @@ namespace OccView
             if (e.MiddleButton == MouseButtonState.Pressed && Keyboard.IsKeyDown(Key.LeftShift))
             {
                 FitAll();
-            }    
+            }
+            else if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                mView.StartRotation(p.X, p.Y);
+            }
         }
 
         public void OnMouseUp(System.Windows.IInputElement sender, MouseButtonEventArgs e)

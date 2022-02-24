@@ -20,7 +20,6 @@ bool OCCView::InitViewer()
     Handle(WNT_Window) aWNTWindow = new WNT_Window("OCC_Viewer", aWClass, WS_POPUP, 64, 64, 64, 64);
     aWNTWindow->SetVirtual(Standard_True);
     mView()->SetWindow(aWNTWindow);
-    mView()->SetBackgroundColor(Quantity_NOC_BLACK);
     mView()->MustBeResized();
     mView()->TriedronDisplay(Aspect_TOTP_LEFT_LOWER, Quantity_NOC_GOLD, 0.08, V3d_ZBUFFER);
 

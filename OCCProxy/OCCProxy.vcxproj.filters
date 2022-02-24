@@ -27,7 +27,7 @@
     <ClCompile Include="OCCView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CPPData.cpp">
+    <ClCompile Include="JsonData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="NativeWrapper.cpp">
@@ -44,7 +44,7 @@
     <ClInclude Include="OCCView.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CPPData.h">
+    <ClInclude Include="JsonData.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="OccCLI.h">

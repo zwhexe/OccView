@@ -1,5 +1,6 @@
 #pragma once
 #include "OccPCH.h"
+#include "OccCLI.h"
 #include "json.hpp"
 #include <iostream>
 #include <fstream>
@@ -25,10 +26,10 @@ public value struct HighLowTemp
 	int low;
 };
 
-public ref class CPPData
+public ref class JsonData
 {
 public:
-	CPPData();
+	JsonData();
 
 	bool LoadJson(System::String^ theFileName);
 	void AnalyzeJson();
@@ -38,5 +39,5 @@ public:
 	IntPtr TestTempRet();
 
 private:
-	NCollection_Haft<json> mJson;
+	OCCT::OccCLI<json> mJson;
 };
