@@ -4,12 +4,13 @@
 #else
 #define OCC_DLL_CLASS __declspec(dllimport)
 #endif
-#include "NativePCH.h"
+#include "OccPCH.h"
+#include "OccView.h"
 
-class OCC_DLL_CLASS NativeShape
+class OCC_DLL_CLASS OccModel
 {
 public:
-	NativeShape();
+	OccModel();
 	void makeCone();
 	void makeTorus();
 	void makeWedge();
@@ -17,6 +18,7 @@ public:
 	TopoDS_Shape getShape();
 
 private:
-	TopoDS_Shape topoShape;
+	TopoDS_Shape m_shape;
+	OccView* m_view;
 };
 

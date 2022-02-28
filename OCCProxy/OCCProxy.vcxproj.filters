@@ -15,48 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OCCProxy.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OCCModel.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="OccPCH.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="OCCView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="JsonData.cpp">
+    <ClCompile Include="BRepWrapper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="NativeWrapper.cpp">
+    <ClCompile Include="OCCProxy.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OCCModel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="OccPCH.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="OCCView.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="JsonData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="OccCLI.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="BRep.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Shape.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="NativeWrapper.h">
+    <ClInclude Include="BRepWrapper.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

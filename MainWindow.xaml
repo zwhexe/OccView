@@ -14,8 +14,6 @@
         <Menu x:Name="menu" Height="21" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,0,0">
             <MenuItem Header="File" Height="21">
                 <MenuItem Header="Import" HorizontalAlignment="Left" Height="21" Width="144" Click="Import_Click"/>
-                <MenuItem Header="C# Load" HorizontalAlignment="Left" Height="21" Width="144" Click="CSharp_Click"/>
-                <MenuItem Header="Occ Load" HorizontalAlignment="Left" Height="21" Width="144" Click="Occ_Click"/>
                 <MenuItem Header="Exit" HorizontalAlignment="Left" Height="21" Width="144"/>
             </MenuItem>
             <MenuItem Header="Primitive" Height="21" Width="60">
@@ -25,9 +23,6 @@
                 <MenuItem Header="Wedge" HorizontalAlignment="Left" Height="21" Width="144" Click="Wedge_Click"/>
                 <MenuItem Header="Sphere" HorizontalAlignment="Left" Height="21" Width="144" Click="Sphere_Click"/>
                 <MenuItem Header="Cylinder" HorizontalAlignment="Left" Height="21" Width="144" Click="Cylinder_Click"/>
-            </MenuItem>
-            <MenuItem Header="Tool" Height="21" Width="40">
-                <MenuItem Header="Test" HorizontalAlignment="Left" Height="21" Width="144" Click="Test_Click"/>
             </MenuItem>
         </Menu>
         <TabControl x:Name="ViewPanel" Margin="0,21,0,18" Grid.ColumnSpan="2" SelectionChanged="ViewPanel_SelectionChanged"/>

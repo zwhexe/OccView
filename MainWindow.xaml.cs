@@ -36,7 +36,6 @@ namespace OccView
             }
         }
 
-        public TestData mData { get; set; }
         public D3dViewer mViewer { get; set; }
         public OCCProxyer mProxyer { get; set; }
         public MainWindow()
@@ -45,7 +44,6 @@ namespace OccView
 
             //init occproxyer include view and model
             mProxyer = new OCCProxyer();
-            mData = new TestData();
             InitViewer();
             mProxyer.Proxy.SetView(mViewer.mView);
         }
@@ -93,22 +91,6 @@ namespace OccView
             if (d3dviewer != null)
             {
                 d3dviewer.ImportModel(ModelFormat.STEP);
-            }
-        }
-
-        private void Occ_Click(object sender, RoutedEventArgs e)
-        {
-            if (mData != null)
-            {
-                mData.ToOccJson();
-            }
-        }
-
-        private void CSharp_Click(object sender, RoutedEventArgs e)
-        {
-            if (mData != null)
-            {
-                mData.LoadJson();
             }
         }
 
@@ -170,15 +152,6 @@ namespace OccView
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
             }
-        }
-
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-            if (mData != null)
-            {
-                mData.TestConvert();
-            }
-
         }
 
         private D3dViewer d3dviewer

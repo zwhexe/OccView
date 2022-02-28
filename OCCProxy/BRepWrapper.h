@@ -8,10 +8,10 @@
 
 namespace OCCT
 {
-	public ref class NativeWrapper : public OCCT::OccCLI<NativeShape>
+	public ref class BRepWrapper : public OCCT::OccCLI<NativeShape>
 	{
 	public:
-		NativeWrapper() : OCCT::OccCLI<NativeShape>()
+		BRepWrapper() : OCCT::OccCLI<NativeShape>()
 		{
 
 		}

@@ -15,18 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NativeShape.h">
+    <ClInclude Include="OccModel.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="NativePCH.h">
+    <ClInclude Include="OccPCH.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OccView.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NativeShape.cpp">
+    <ClCompile Include="OccModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="NativePCH.cpp">
+    <ClCompile Include="OccPCH.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OccView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

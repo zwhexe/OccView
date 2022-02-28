@@ -1,24 +1,25 @@
-#include "NativeShape.h"
+#include "OccModel.h"
 
-NativeShape::NativeShape()
+OccModel::OccModel()
 {
-
+    m_shape.Nullify();
+    m_view = new OccView();
 }
 
-void NativeShape::makeCone()
+void OccModel::makeCone()
 {
 	gp_Ax2 ax2 = gp::XOY();
-	topoShape = BRepPrimAPI_MakeCone(ax2, 5, 10, 30);
+    m_shape = BRepPrimAPI_MakeCone(ax2, 5, 10, 30);
 }
 
-void NativeShape::makeTorus()
+void OccModel::makeTorus()
 {
 	gp_Ax2 anAxis;
 	anAxis.SetLocation(gp_Pnt(0.0, 40.0, 0.0));
-	topoShape = BRepPrimAPI_MakeTorus(anAxis, 3.0, 1.0).Shape();
+    m_shape = BRepPrimAPI_MakeTorus(anAxis, 3.0, 1.0).Shape();
 }
 
-void NativeShape::makeWedge()
+void OccModel::makeWedge()
 {
     Standard_Real dx = 12.0;
     Standard_Real dy = 8.0;
@@ -55,11 +56,11 @@ void NativeShape::makeWedge()
     TopoDS_Shape sheet2 = aTransform2.Shape();
 
     TopoDS_Shape sheet = BRepAlgoAPI_Fuse(sheet1, sheet2);
-    topoShape = sheet;
+    m_shape = sheet;
 }
 
-TopoDS_Shape NativeShape::getShape()
+TopoDS_Shape OccModel::getShape()
 {
-	return topoShape;
+	return m_shape;
 }
 

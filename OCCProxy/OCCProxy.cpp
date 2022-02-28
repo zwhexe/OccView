@@ -3,7 +3,6 @@
 #include <vcclr.h>
 #include <windows.h>
 #include "OCCView.h"
-#include "OCCModel.h"
 #include "OccPCH.h"
 //!If not include OccShape.hpp, this class cannot be identified in C#???
 #include "../OCCNative/NativeShape.h"
@@ -14,14 +13,8 @@ public ref class OCCProxy
 public:
     OCCProxy()
     {
-        occModel = gcnew OCCModel();
         occView = gcnew OCCView();
         natShape = new NativeShape();
-    }
-
-    void SetModel(OCCModel^ model)
-    {
-        occModel = model;
     }
 
     void SetView(OCCView^ view)

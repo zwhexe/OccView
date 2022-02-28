@@ -3,7 +3,6 @@
 #include <vcclr.h>
 #include <windows.h>
 #include "OccPCH.h"
-#include "Shape.hpp"
 
 static TCollection_AsciiString toAsciiString(String^ theString)
 {
