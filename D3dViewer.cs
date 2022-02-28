@@ -93,7 +93,6 @@ namespace OccView
 
             if (mD3dImg.IsFrontBufferAvailable)
             {
-                //Proxyer = new OCCProxyer();
                 if (!mView.InitViewer())
                 {
                     MessageBox.Show("Failed to initialize OpenGL-Direct3D interoperability!",
@@ -146,6 +145,7 @@ namespace OccView
                 // Set the back buffer for Direct3D WPF image
                 mD3dImg.Lock();
                 {
+                    //return OCC V3d_View D3D surface handler
                     mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, IntPtr.Zero);
                     mColorSurf = mView.ResizeBridgeFBO(theSizeX, theSizeY);
                     mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, mColorSurf);
