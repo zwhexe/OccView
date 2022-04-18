@@ -52,17 +52,17 @@ namespace OccView
         private int myYmax;
         private int myXmin;
         private int myYmin;
-        public OCCView mView { get; set; }
 
         public D3dViewer()
         {
+            CheckHardWareSupport();
+            useSoftRender = true;
             //register OnIsFrontBufferAvailabelChanged as DependencyPropertyChangedEventHandler to 
             //D3DImage.IsFrontBufferAvailableChanged which is an event(an instaniate delegate)
             mD3dImg.IsFrontBufferAvailableChanged
               += new DependencyPropertyChangedEventHandler(OnIsFrontBufferAvailableChanged);
             //once D3DViewer be initialized, attach FrontBuffer method to D3DImage
             //thus D3DImage Front Buffer changed it will notice OnIsFrontBufferAvailableChanged
-            mView = new OCCView(); 
             BeginRenderingScene();
         }
 
@@ -70,7 +70,7 @@ namespace OccView
         {
             // If the front buffer is available, then WPF has just created a new
             // Direct3D device, thus we need to start rendering our custom scene
-            if (mD3dImg.IsFrontBufferAvailable)
+            if (useSoftRender || mD3dImg.IsFrontBufferAvailable)
             {
                 BeginRenderingScene();
             }
@@ -82,18 +82,22 @@ namespace OccView
             }
         }
 
+        private void CheckHardWareSupport()
+        {
+            int level = System.Windows.Media.RenderCapability.Tier >> 16;
+            useSoftRender = level == 0 ? true : false;
+        }
+
         private bool mIsFailed = false;
+        private bool useSoftRender = false;
 
         private void BeginRenderingScene()
         {
-            if (mIsFailed)
-            {
-                return;
-            }
+            if (mIsFailed) return;
 
-            if (mD3dImg.IsFrontBufferAvailable)
+            if (useSoftRender || mD3dImg.IsFrontBufferAvailable)
             {
-                if (!mView.InitViewer())
+                if (!OCCProxyer.Proxy.InitViewer())
                 {
                     MessageBox.Show("Failed to initialize OpenGL-Direct3D interoperability!",
                       "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -122,15 +126,15 @@ namespace OccView
         private void UpdateScene()
         {
             if (!mIsFailed
-              && mD3dImg.IsFrontBufferAvailable
+              && (useSoftRender || mD3dImg.IsFrontBufferAvailable)
               && mColorSurf != IntPtr.Zero
               && (mD3dImg.PixelWidth != 0 && mD3dImg.PixelHeight != 0))
             {
                 mD3dImg.Lock();
                 {
+                    mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, mColorSurf, useSoftRender);
                     // Update the scene (via a call into our custom library)
-                    mView.RedrawView();
-
+                    OCCProxyer.Proxy.RedrawView();
                     // Invalidate the updated region of the D3DImage
                     mD3dImg.AddDirtyRect(new Int32Rect(0, 0, mD3dImg.PixelWidth, mD3dImg.PixelHeight));
                 }
@@ -140,15 +144,16 @@ namespace OccView
 
         public void Resize(int theSizeX, int theSizeY)
         {
-            if (!mIsFailed && mD3dImg.IsFrontBufferAvailable)
+            if (!mIsFailed && (useSoftRender || mD3dImg.IsFrontBufferAvailable))
             {
                 // Set the back buffer for Direct3D WPF image
                 mD3dImg.Lock();
                 {
                     //return OCC V3d_View D3D surface handler
-                    mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, IntPtr.Zero);
-                    mColorSurf = mView.ResizeBridgeFBO(theSizeX, theSizeY);
-                    mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, mColorSurf);
+                    mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, IntPtr.Zero, useSoftRender);
+                    OCCProxyer.Proxy.ResizeBridgeFBO(theSizeX, theSizeY);
+                    mColorSurf = OCCProxyer.Proxy.GetD3dSurface();
+                    mD3dImg.SetBackBuffer(D3DResourceType.IDirect3DSurface9, mColorSurf, useSoftRender);
                 }
                 mD3dImg.Unlock();
             }
@@ -190,12 +195,12 @@ namespace OccView
                 {
                     return;
                 }
-                if (!mView.TranslateModel(aFileName, aFormat, true))
+                if (!OCCProxyer.Proxy.TranslateModel(aFileName, aFormat, true))
                 {
                     Console.WriteLine("Failed to Open File!");
                 }
             }
-            mView.ZoomAllView();
+            OCCProxyer.Proxy.ZoomAllView();
         }
 
         public D3DImage Image
@@ -205,12 +210,12 @@ namespace OccView
 
         public void FitAll()
         {
-            mView.ZoomAllView();
+            OCCProxyer.Proxy.ZoomAllView();
         }
 
         public void SetDisplayMode(int theMode = 1)
         {
-            mView.SetDisplayMode(theMode);
+            OCCProxyer.Proxy.SetDisplayMode(theMode);
         }
 
         public void ZoomWindow()
@@ -230,7 +235,7 @@ namespace OccView
 
         public void GlobalPanning()
         {
-            mCurZoom = mView.Scale();
+            mCurZoom = OCCProxyer.Proxy.Scale();
             currentMode = CurrentAction3d.CurAction3d_GlobalPanning;
         }
 
@@ -251,7 +256,7 @@ namespace OccView
                 aY -= aFactor;
             }
 
-            mView.Zoom(p.X, p.Y, aX, aY);
+            OCCProxyer.Proxy.Zoom(p.X, p.Y, aX, aY);
         }
 
         public void OnMouseMove(System.Windows.IInputElement sender, MouseEventArgs e)
@@ -259,11 +264,11 @@ namespace OccView
             System.Drawing.Point p = new System.Drawing.Point((int)e.GetPosition(sender).X, (int)e.GetPosition(sender).Y);
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                mView.Rotation(p.X, p.Y);
+                OCCProxyer.Proxy.Rotation(p.X, p.Y);
             }
             else if (e.LeftButton == MouseButtonState.Pressed && Keyboard.IsKeyDown(Key.LeftShift))
             {
-                mView.Pan(p.X - myXmax, myYmax - p.Y);
+                OCCProxyer.Proxy.Pan(p.X - myXmax, myYmax - p.Y);
                 myXmax = p.X;
                 myYmax = p.Y;
             }
@@ -272,7 +277,7 @@ namespace OccView
                 //Occ MoveTo display selection when mouse on shape
                 myXmax = p.X;
                 myYmax = p.Y;
-                mView.MoveTo(p.X, p.Y);
+                OCCProxyer.Proxy.MoveTo(p.X, p.Y);
             }
         }
 
@@ -289,7 +294,7 @@ namespace OccView
             }
             else if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                mView.StartRotation(p.X, p.Y);
+                OCCProxyer.Proxy.StartRotation(p.X, p.Y);
             }
         }
 

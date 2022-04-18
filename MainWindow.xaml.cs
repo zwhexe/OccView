@@ -36,27 +36,37 @@ namespace OccView
             }
         }
 
-        public D3dViewer mViewer { get; set; }
-        public OCCProxyer mProxyer { get; set; }
+        public class Color
+        {
+            public string Code { get; set; }
+            public string Name { get; set; }
+        }
+
+        public OCCProxyer Proxyer { get; set; }
+        public D3dViewer d3DViewer { get; set; }
         public MainWindow()
         {
+            Proxyer = new OCCProxyer();
             InitializeComponent();
-
-            //init occproxyer include view and model
-            mProxyer = new OCCProxyer();
             InitViewer();
-            mProxyer.Proxy.SetView(mViewer.mView);
+
+            List<Color> aList = new List<Color>();
+            aList.Add(new Color() { Code = "#FFB6C1", Name = "light pink" });
+            aList.Add(new Color() { Code = "#DC143C", Name = "deep pink" });
+            aList.Add(new Color() { Code = "#FFF0F5", Name = "light purple" });
+
+            theList.ItemsSource = aList;
         }
 
         public void InitViewer()
         {
             //0.create Grid with Viewer
-            mViewer = new D3dViewer();
+            d3DViewer = new D3dViewer();
             Grid g = new Grid();
-            Map.Add(g, mViewer);
+            Map.Add(g, d3DViewer);
             
             //1.use D3DImage to initialize imgBrush
-            ImageBrush imgBrush = new ImageBrush(mViewer.Image);
+            ImageBrush imgBrush = new ImageBrush(d3DViewer.Image);
 
             //2.use ImageBrush to fill grid background
             g.Background = imgBrush;
@@ -98,7 +108,7 @@ namespace OccView
         {
             if (d3dviewer != null)
             {
-                mProxyer.MakeBox();
+                Proxyer.MakeBox();
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
             }
@@ -108,7 +118,7 @@ namespace OccView
         {
             if (d3dviewer != null)
             {
-                mProxyer.MakeCone();
+                Proxyer.MakeCone();
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
             }
@@ -118,7 +128,7 @@ namespace OccView
         {
             if (d3dviewer != null)
             {
-                mProxyer.MakeTorus();
+                Proxyer.MakeTorus();
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
             }
@@ -128,7 +138,7 @@ namespace OccView
         {
             if (d3dviewer != null)
             {
-                mProxyer.MakeWedge();
+                Proxyer.MakeWedge();
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
             }
@@ -138,7 +148,7 @@ namespace OccView
         {
             if (d3dviewer != null)
             {
-                mProxyer.MakeSphere();
+                Proxyer.MakeSphere();
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
             }
@@ -148,9 +158,18 @@ namespace OccView
         {
             if (d3dviewer != null)
             {
-                mProxyer.MakeCylinder();
+                Proxyer.MakeCylinder();
                 d3dviewer.SetDisplayMode();
                 d3dviewer.FitAll();
+            }
+        }
+
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+            if (d3dviewer != null)
+            {
+                Proxyer.LoadJson();
             }
         }
 
@@ -236,6 +255,17 @@ namespace OccView
         private void ViewPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void CmdAnswer_Click(object sender, RoutedEventArgs e)
+        {
+            string question = (string)this.TxtQuestion.Text;
+            this.TxtAnswer.Text = question;
+        }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            Proxyer.TestClick();
         }
     }
 }

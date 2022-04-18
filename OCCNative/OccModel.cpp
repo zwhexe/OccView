@@ -3,13 +3,13 @@
 OccModel::OccModel()
 {
     m_shape.Nullify();
-    m_view = new OccView();
 }
 
 void OccModel::makeCone()
 {
 	gp_Ax2 ax2 = gp::XOY();
     m_shape = BRepPrimAPI_MakeCone(ax2, 5, 10, 30);
+    this->displayShape();
 }
 
 void OccModel::makeTorus()
@@ -17,6 +17,7 @@ void OccModel::makeTorus()
 	gp_Ax2 anAxis;
 	anAxis.SetLocation(gp_Pnt(0.0, 40.0, 0.0));
     m_shape = BRepPrimAPI_MakeTorus(anAxis, 3.0, 1.0).Shape();
+    this->displayShape();
 }
 
 void OccModel::makeWedge()
@@ -57,6 +58,7 @@ void OccModel::makeWedge()
 
     TopoDS_Shape sheet = BRepAlgoAPI_Fuse(sheet1, sheet2);
     m_shape = sheet;
+    this->displayShape();
 }
 
 TopoDS_Shape OccModel::getShape()
@@ -64,3 +66,30 @@ TopoDS_Shape OccModel::getShape()
 	return m_shape;
 }
 
+void OccModel::displayShape()
+{
+    Handle(AIS_Shape) ais = new AIS_Shape(m_shape);
+    gAisContext->Display(ais, Standard_True);
+}
+
+bool OccModel::loadJson(std::string& filename)
+{
+    std::ifstream ifs;
+    ifs.open(filename);
+    Json::Reader reader;
+    bool res = reader.parse(ifs, m_json);
+
+    std::map<int, std::string> tempMap;
+    if (res)
+    {
+        std::cout << m_json.size() << std::endl;
+        std::cout << m_json["robot"] << std::endl;
+    }
+
+    return res;
+}
+
+void OccModel::makeTest()
+{
+        
+}

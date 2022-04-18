@@ -21,7 +21,7 @@
     <ClInclude Include="OccPCH.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="OccView.h">
+    <ClInclude Include="OccContext.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClCompile Include="OccPCH.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="OccView.cpp">
+    <ClCompile Include="OccContext.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

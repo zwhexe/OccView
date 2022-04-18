@@ -1,56 +1,122 @@
-#pragma once
-#define OCC_DLL_CLASS_EXPORTS
-#include <vcclr.h>
-#include <windows.h>
-#include "OCCView.h"
-#include "OccPCH.h"
-//!If not include OccShape.hpp, this class cannot be identified in C#???
-#include "../OCCNative/NativeShape.h"
+#include "OccProxy.h"
 
-//use OCCProxy to process operation
-public ref class OCCProxy
+OccProxy::OccProxy()
 {
-public:
-    OCCProxy()
+    occModel = new OccModel();
+    occContext = new OccContext();
+}
+
+/// <summary>
+/// view manipulate
+/// </summary>
+/// <returns></returns>
+bool OccProxy::InitViewer()
+{
+    return occContext->InitViewer();
+}
+
+void OccProxy::ResizeBridgeFBO(int theWinSizeX, int theWinSizeY)
+{
+    occContext->SetPos(theWinSizeX, theWinSizeY);
+}
+
+System::IntPtr OccProxy::GetD3dSurface()
+{
+    return System::IntPtr(occContext->GetD3dView()->D3dColorSurface());
+}
+
+void OccProxy::RedrawView()
+{
+    occContext->RedrawView();
+}
+
+void OccProxy::ZoomAllView()
+{
+    occContext->ZoomAllView();
+}
+
+void OccProxy::SetDisplayMode(int theMode)
+{
+    occContext->SetDisplayMode(theMode);
+}
+
+float OccProxy::Scale()
+{
+    return occContext->Scale();
+}
+
+void OccProxy::Zoom(int theX1, int theY1, int theX2, int theY2)
+{
+    occContext->Zoom(theX1, theY1, theX2, theY2);
+}
+
+void OccProxy::Rotation(int x, int y)
+{
+    occContext->Rotation(x, y);
+}
+
+void OccProxy::Pan(int x, int y)
+{
+    occContext->Pan(x, y);
+}
+
+void OccProxy::MoveTo(int x, int y)
+{
+    occContext->MoveTo(x, y);
+}
+
+void OccProxy::StartRotation(int x, int y)
+{
+    occContext->StartRotation(x, y);
+}
+
+bool OccProxy::TranslateModel(System::String^ aFilename, int format, bool update)
+{
+    std::string filename = msclr::interop::marshal_as<std::string>(aFilename);
+    bool res;
+    switch (format)
     {
-        occView = gcnew OCCView();
-        natShape = new NativeShape();
+    case 0:
+        res = occContext->ImportBrep(filename); break;
+    case 1:
+        res = occContext->ImportStep(filename); break;
+    case 2:
+        res = occContext->ImportIges(filename); break;
     }
 
-    void SetView(OCCView^ view)
-    {
-        occView = view;
-    }
+    if (update)
+        occContext->UpdateCurrentViewer();
+    return res;
+}
 
-    void Display()
-    {
-        if (!occModel->GetTopoShape().IsNull())
-        {
-            occView->DisplayShape(occModel->GetTopoShape());
-        }
-    }
+/// <summary>
+/// make shape
+/// </summary>
+void OccProxy::makeCone()
+{
+    occModel->makeCone();
+}
 
-    //NativeShape make shape to OCCT_Shape
-    void MakeOctShape()
-    {
-        natShape->makeCone();
-        TopoDS_Shape shp = natShape->getShape();
-        octShape = gcnew OCCT::OCCT_Shape(shp);
-    }
+void OccProxy::makeTorus()
+{
+    occModel->makeTorus();
+}
 
-    //Get OCCT_Shape which wrappered TopoDS_Shape
-    OCCT::OCCT_Shape^ GetOctShape()
-    {
-        return octShape;
-    }
+void OccProxy::makeWedge()
+{
+    occModel->makeWedge();
+}
 
-public:
-    //OCC proxy class
-    OCCView^ occView;
-    OCCModel^ occModel;
-    //OCC dll class
-    NativeShape* natShape;
+/// <summary>
+/// load jsoncpp
+/// </summary>
+void OccProxy::makeTest()
+{
+    occModel->makeTest();
+}
 
-private:
-    OCCT::OCCT_Shape^ octShape;
-};
+bool OccProxy::loadJson(System::String^ aFilename)
+{
+    std::string filename = msclr::interop::marshal_as<std::string>(aFilename);
+    return occModel->loadJson(filename);
+}

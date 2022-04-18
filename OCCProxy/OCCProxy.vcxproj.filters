@@ -18,13 +18,10 @@
     <ClCompile Include="OccPCH.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="OCCView.cpp">
+    <ClCompile Include="OccProxy.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="BRepWrapper.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OCCProxy.cpp">
+    <ClCompile Include="JsonData.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,13 +29,13 @@
     <ClInclude Include="OccPCH.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="OCCView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="OccCLI.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="BRepWrapper.h">
+    <ClInclude Include="OccProxy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonData.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

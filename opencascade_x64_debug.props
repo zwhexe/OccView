@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>D:\openSource\opencascade\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\openSource\opencascade\x64debug\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>TKernel.lib;TKMath.lib;TKXSBase.lib;TKV3d.lib;TKG3d.lib;TKGeomBase.lib;TKG2d.lib;TKBRep.lib;TKIGES.lib;TKSTEP.lib;TKStl.lib;TKPrim.lib;TKOffset.lib;TKFillet.lib;TKBool.lib;TKFeat.lib;TKBO.lib;TKTopAlgo.lib;TKGeomAlgo.lib;TKShHealing.lib;TKHLR.lib;TKService.lib;TKOpenGl.lib;TKD3dHost.lib;TKVrml.lib;TKLCAF.lib;D3D9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\openSource\opencascade\x64debug\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

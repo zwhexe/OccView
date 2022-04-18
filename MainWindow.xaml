@@ -5,15 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OccView"
         mc:Ignorable="d"
-        Title="OccWindow" Height="450" Width="600">
+        Title="OccWindow" Height="600" Width="800">
+    <Window.Resources>
+        <Style x:Key="BaseButton" TargetType="Button">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontStyle" Value="Oblique"/>
+        </Style>
+        <Style x:Key="LeftButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{x:Static SystemColors.ActiveCaptionTextBrush}"/>
+            <Setter Property="Background" Value="SlateGray"/>
+            <Setter Property="Margin" Value="10 10 10 10"/>
+        </Style> 
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="31*"/>
-            <ColumnDefinition Width="523*"/>
+            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="500*"/>
+            <ColumnDefinition Width="150*"/>
         </Grid.ColumnDefinitions>
         <Menu x:Name="menu" Height="21" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,0,0">
             <MenuItem Header="File" Height="21">
                 <MenuItem Header="Import" HorizontalAlignment="Left" Height="21" Width="144" Click="Import_Click"/>
+                <MenuItem Header="Load" HorizontalAlignment="Left" Height="21" Width="144" Click="Load_Click"/>
                 <MenuItem Header="Exit" HorizontalAlignment="Left" Height="21" Width="144"/>
             </MenuItem>
             <MenuItem Header="Primitive" Height="21" Width="60">
@@ -24,7 +38,51 @@
                 <MenuItem Header="Sphere" HorizontalAlignment="Left" Height="21" Width="144" Click="Sphere_Click"/>
                 <MenuItem Header="Cylinder" HorizontalAlignment="Left" Height="21" Width="144" Click="Cylinder_Click"/>
             </MenuItem>
+            <MenuItem Header="Test" HorizontalAlignment="Left" Height="21" Width="144" Click="Test_Click"></MenuItem>
         </Menu>
-        <TabControl x:Name="ViewPanel" Margin="0,21,0,18" Grid.ColumnSpan="2" SelectionChanged="ViewPanel_SelectionChanged"/>
+        <Grid x:Name="ControlPanel" Grid.Column="0" Margin="0,21,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="TxtQuestion"
+                Margin="10 10 13 10" TextWrapping="Wrap" FontFamily="Verdana" FontSize="15">
+                [Place question here]
+            </TextBox>
+            <StackPanel Grid.Row="1">
+                <Button Name="CmdAnswer" Click="CmdAnswer_Click" Margin="10">Copy Question to Answer</Button>
+                <Button Style="{StaticResource LeftButton}">Copy Answer to Question</Button>
+                <Button Style="{StaticResource LeftButton}">Empty Qusetion and Answer</Button>
+            </StackPanel>
+            <TextBox Grid.Row="2" Name="TxtAnswer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                Margin="10 10 13 10" TextWrapping="Wrap" IsReadOnly="True" FontFamily="Verdana" FontSize="15" Foreground="Green">
+                [Answer will appear here]
+            </TextBox>
+            <Grid.Background>
+                <LinearGradientBrush>
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Offset="0.00" Color="#5BA2ED"/>
+                            <GradientStop Offset="0.50" Color="#6E1012"/>
+                            <GradientStop Offset="1.00" Color="Violet"/>
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+        <TabControl x:Name="ViewPanel" Grid.Column="1" SelectionChanged="ViewPanel_SelectionChanged" Margin="0,21,0,0"/>
+        <Grid Grid.Column="2" Margin="0,21,0,0">
+            <ListBox x:Name="theList">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="10" Height="10" Background="{Binding Code}"/>
+                            <TextBlock Margin="10 0" Text="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
 </Window>
