@@ -106,6 +106,11 @@ namespace OccView
                     return;
                 }
 
+                if (mD3dImg.PixelWidth != 0 && mD3dImg.PixelHeight != 0)
+                {
+                    Resize(mD3dImg.PixelWidth, mD3dImg.PixelHeight);
+                }
+
                 // Leverage the Rendering event of WPF composition
                 // target to update the our custom Direct3D scene
                 CompositionTarget.Rendering += OnRendering;
