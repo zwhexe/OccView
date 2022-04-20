@@ -12,10 +12,12 @@ namespace OccView
     public class OCCProxyer
     {
         public static OccProxy Proxy { get; set; }
+        public string OccName { get; set; }
 
         public OCCProxyer()
         {
             Proxy = new OccProxy();
+            OccName = "OpenCascade";
         }
 
         public void TestClick()

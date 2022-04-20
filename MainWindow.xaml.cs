@@ -38,6 +38,8 @@ namespace OccView
 
         public class Color
         {
+            public Color() { Code = "code"; Name = "name"; }
+            public Color(string c, string n) { Code = c; Name = n; }
             public string Code { get; set; }
             public string Name { get; set; }
         }
@@ -47,6 +49,7 @@ namespace OccView
         public MainWindow()
         {
             Proxyer = new OCCProxyer();
+            this.DataContext = Proxyer;
             InitializeComponent();
             InitViewer();
 
@@ -54,8 +57,10 @@ namespace OccView
             aList.Add(new Color() { Code = "#FFB6C1", Name = "light pink" });
             aList.Add(new Color() { Code = "#DC143C", Name = "deep pink" });
             aList.Add(new Color() { Code = "#FFF0F5", Name = "light purple" });
-
             theList.ItemsSource = aList;
+            //Binding Color.Name to theBlock DataContext to its Text
+            Color color = new Color();
+            theBlock.DataContext = color;
         }
 
         public void InitViewer()
@@ -267,5 +272,6 @@ namespace OccView
         {
             Proxyer.TestClick();
         }
+
     }
 }

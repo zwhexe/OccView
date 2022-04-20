@@ -10,6 +10,12 @@
         <Style x:Key="BaseButton" TargetType="Button">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontStyle" Value="Oblique"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="LightSeaGreen"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="LeftButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
             <Setter Property="FontSize" Value="12"/>
@@ -20,11 +26,11 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="500*"/>
-            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <Menu x:Name="menu" Height="21" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,0,0">
+        <Menu x:Name="menu" Height="21" VerticalAlignment="Top" Grid.ColumnSpan="3"  Margin="0,0,0,0">
             <MenuItem Header="File" Height="21">
                 <MenuItem Header="Import" HorizontalAlignment="Left" Height="21" Width="144" Click="Import_Click"/>
                 <MenuItem Header="Load" HorizontalAlignment="Left" Height="21" Width="144" Click="Load_Click"/>
@@ -40,7 +46,7 @@
             </MenuItem>
             <MenuItem Header="Test" HorizontalAlignment="Left" Height="21" Width="144" Click="Test_Click"></MenuItem>
         </Menu>
-        <Grid x:Name="ControlPanel" Grid.Column="0" Margin="0,21,0,0">
+        <Grid x:Name="ControlPanel" Grid.Column="0" Margin="0 21 0 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -53,7 +59,7 @@
             <StackPanel Grid.Row="1">
                 <Button Name="CmdAnswer" Click="CmdAnswer_Click" Margin="10">Copy Question to Answer</Button>
                 <Button Style="{StaticResource LeftButton}">Copy Answer to Question</Button>
-                <Button Style="{StaticResource LeftButton}">Empty Qusetion and Answer</Button>
+                <Button Style="{StaticResource LeftButton}" Opacity="0.5">Empty Qusetion and Answer</Button>
             </StackPanel>
             <TextBox Grid.Row="2" Name="TxtAnswer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                 Margin="10 10 13 10" TextWrapping="Wrap" IsReadOnly="True" FontFamily="Verdana" FontSize="15" Foreground="Green">
@@ -73,7 +79,19 @@
         </Grid>
         <TabControl x:Name="ViewPanel" Grid.Column="1" SelectionChanged="ViewPanel_SelectionChanged" Margin="0,21,0,0"/>
         <Grid Grid.Column="2" Margin="0,21,0,0">
-            <ListBox x:Name="theList">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Slider x:Name="theSlider" Width="auto" Height="30" Margin="10"/>
+                <TextBox x:Name="theText" Margin="10" Height="30" Text="{Binding ElementName=theSlider, Path=Value, Mode=TwoWay}"
+                         BorderBrush="Black" Background="AntiqueWhite" FontSize="25" VerticalContentAlignment="Stretch"/>
+                <TextBlock x:Name="theBlock" Text="{Binding Name, FallbackValue='Not Found'}" Foreground="Black"
+                           Margin="10" Height="30" FontSize="25" />
+                <TextBlock Text="{Binding OccName}" Foreground="Black" Margin="10" Height="30" FontSize="20"/>
+            </StackPanel>
+            <ListBox x:Name="theList" Grid.Row="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
