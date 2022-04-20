@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace OccView
 {
     public class OCCProxyer
     {
         public static OccProxy Proxy { get; set; }
-        public string OccName { get; set; }
 
         public OCCProxyer()
         {
             Proxy = new OccProxy();
-            OccName = "OpenCascade";
         }
 
         public void TestClick()

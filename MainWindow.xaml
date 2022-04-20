@@ -77,7 +77,8 @@
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
-        <TabControl x:Name="ViewPanel" Grid.Column="1" SelectionChanged="ViewPanel_SelectionChanged" Margin="0,21,0,0"/>
+        <!--<TabControl x:Name="ViewPanel" Grid.Column="1" SelectionChanged="ViewPanel_SelectionChanged" Margin="0,21,0,0"/>-->
+        <Grid x:Name="ViewGrid" Grid.Column="1" Margin="0,21,0,0"/>
         <Grid Grid.Column="2" Margin="0,21,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -87,20 +88,17 @@
                 <Slider x:Name="theSlider" Width="auto" Height="30" Margin="10"/>
                 <TextBox x:Name="theText" Margin="10" Height="30" Text="{Binding ElementName=theSlider, Path=Value, Mode=TwoWay}"
                          BorderBrush="Black" Background="AntiqueWhite" FontSize="25" VerticalContentAlignment="Stretch"/>
-                <TextBlock x:Name="theBlock" Text="{Binding Name, FallbackValue='Not Found'}" Foreground="Black"
-                           Margin="10" Height="30" FontSize="25" />
-                <TextBlock Text="{Binding OccName}" Foreground="Black" Margin="10" Height="30" FontSize="20"/>
+                <ListBox x:Name="theList" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="10" Height="10" Background="{Binding Code}"/>
+                                <TextBlock Margin="10 0" Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
-            <ListBox x:Name="theList" Grid.Row="1">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Border Width="10" Height="10" Background="{Binding Code}"/>
-                            <TextBlock Margin="10 0" Text="{Binding Name}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
         </Grid>
     </Grid>
 </Window>

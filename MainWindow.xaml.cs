@@ -15,6 +15,8 @@ using System.ComponentModel;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OccView
 {
@@ -49,7 +51,6 @@ namespace OccView
         public MainWindow()
         {
             Proxyer = new OCCProxyer();
-            this.DataContext = Proxyer;
             InitializeComponent();
             InitViewer();
 
@@ -58,46 +59,60 @@ namespace OccView
             aList.Add(new Color() { Code = "#DC143C", Name = "deep pink" });
             aList.Add(new Color() { Code = "#FFF0F5", Name = "light purple" });
             theList.ItemsSource = aList;
-            //Binding Color.Name to theBlock DataContext to its Text
-            Color color = new Color();
-            theBlock.DataContext = color;
         }
 
+        //public void InitViewer()
+        //{
+        //    //0.create Grid with Viewer
+        //    d3DViewer = new D3dViewer();
+        //    Grid g = new Grid();
+        //    Map.Add(g, d3DViewer);
+            
+        //    //1.use D3DImage to initialize imgBrush
+        //    ImageBrush imgBrush = new ImageBrush(d3DViewer.Image);
+
+        //    //2.use ImageBrush to fill grid background
+        //    g.Background = imgBrush;
+        //    g.MouseWheel += new MouseWheelEventHandler(g_MouseWheel);
+        //    g.MouseMove += new MouseEventHandler(g_MouseMove);
+        //    g.MouseDown += new MouseButtonEventHandler(g_MouseDown);
+        //    g.MouseUp += new MouseButtonEventHandler(g_MouseUp);
+        //    g.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+
+        //    //3.assign grid to TabItem content
+        //    TabItem aNewTab = new TabItem();
+        //    aNewTab.Content = g;  //assign grid to TabItem
+        //    aNewTab.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+        //    aNewTab.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch;
+        //    aNewTab.VerticalContentAlignment = System.Windows.VerticalAlignment.Stretch;
+
+        //    g.SizeChanged += new SizeChangedEventHandler(g_SizeChanged);
+        //    aNewTab.IsSelected = true;
+        //    aNewTab.Header = "View " + mViewCounter.ToString();
+        //    mViewCounter++;
+
+        //    //4.add TabItem to xaml TabControl
+        //    ViewPanel.Items.Add(aNewTab);
+        //    ViewPanel.Focus();
+
+        //    //5.update XAML property
+        //    RaisePropertyChanged("IsDocumentOpen");
+        //}
         public void InitViewer()
         {
-            //0.create Grid with Viewer
             d3DViewer = new D3dViewer();
-            Grid g = new Grid();
-            Map.Add(g, d3DViewer);
-            
-            //1.use D3DImage to initialize imgBrush
+            Map.Add(ViewGrid, d3DViewer);
+
             ImageBrush imgBrush = new ImageBrush(d3DViewer.Image);
+            ViewGrid.Background = imgBrush;
+            ViewGrid.MouseWheel += new MouseWheelEventHandler(g_MouseWheel);
+            ViewGrid.MouseMove += new MouseEventHandler(g_MouseMove);
+            ViewGrid.MouseDown += new MouseButtonEventHandler(g_MouseDown);
+            ViewGrid.MouseUp += new MouseButtonEventHandler(g_MouseUp);
+            ViewGrid.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+            ViewGrid.SizeChanged += new SizeChangedEventHandler(g_SizeChanged);
 
-            //2.use ImageBrush to fill grid background
-            g.Background = imgBrush;
-            g.MouseWheel += new MouseWheelEventHandler(g_MouseWheel);
-            g.MouseMove += new MouseEventHandler(g_MouseMove);
-            g.MouseDown += new MouseButtonEventHandler(g_MouseDown);
-            g.MouseUp += new MouseButtonEventHandler(g_MouseUp);
-            g.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-
-            //3.assign grid to TabItem content
-            TabItem aNewTab = new TabItem();
-            aNewTab.Content = g;  //assign grid to TabItem
-            aNewTab.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-            aNewTab.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch;
-            aNewTab.VerticalContentAlignment = System.Windows.VerticalAlignment.Stretch;
-
-            g.SizeChanged += new SizeChangedEventHandler(g_SizeChanged);
-            aNewTab.IsSelected = true;
-            aNewTab.Header = "View " + mViewCounter.ToString();
-            mViewCounter++;
-
-            //4.add TabItem to xaml TabControl
-            ViewPanel.Items.Add(aNewTab);
-            ViewPanel.Focus();
-
-            //5.update XAML property
+            ViewGrid.Focus();
             RaisePropertyChanged("IsDocumentOpen");
         }
 
@@ -187,7 +202,7 @@ namespace OccView
                     return null;
                 }
 
-                Grid grid = (ViewPanel.SelectedContent) as Grid;
+                Grid grid = ViewGrid; //(ViewPanel.SelectedContent) as Grid;
                 if (grid == null)
                 {
                     return null;
@@ -200,7 +215,8 @@ namespace OccView
         {
             get
             {
-                return ViewPanel.Items.Count > 0;
+                //return ViewPanel.Items.Count > 0;
+                return ViewGrid.IsEnabled;
             }
         }
 
@@ -208,7 +224,7 @@ namespace OccView
         {
             if (!IsDocumentOpen)
                 return;
-            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            Grid aGrid = ViewGrid; //(ViewPanel.SelectedContent) as Grid;
 
             if (aGrid == null)
                 return;
@@ -219,7 +235,7 @@ namespace OccView
 
         void g_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            Grid aGrid = ViewGrid; //(ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
                 d3dviewer.OnMouseWheel(aGrid, e);
@@ -228,7 +244,7 @@ namespace OccView
 
         void g_MouseMove(object sender, MouseEventArgs e)
         {
-            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            Grid aGrid = ViewGrid; //(ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
                 d3dviewer.OnMouseMove(aGrid, e);
@@ -237,16 +253,16 @@ namespace OccView
 
         void g_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            Grid aGrid = ViewGrid; //(ViewPanel.SelectedContent) as Grid;
             if (aGrid != null)
             {
-                d3dviewer.OnMouseDown(ViewPanel, e);
+                d3dviewer.OnMouseDown( ViewGrid /*ViewPanel*/, e);
             }
         }
 
         void g_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            Grid aGrid = (ViewPanel.SelectedContent) as Grid;
+            Grid aGrid = ViewGrid; //(ViewPanel.SelectedContent) as Grid;
 
             if (aGrid != null)
             {
